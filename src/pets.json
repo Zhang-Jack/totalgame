@@ -1,130 +1,207 @@
 [
   {
     "id": 0,
-    "name": "Frieda",
-    "picture": "images/scottish-terrier.jpeg",
-    "age": 3,
-    "breed": "Scottish Terrier",
-    "location": "Lisco, Alabama"
+    "name": "Russia",
+    "picture": "images/Russia.PNG",
+    "Price": 0.001
   },
   {
     "id": 1,
-    "name": "Gina",
-    "picture": "images/scottish-terrier.jpeg",
-    "age": 3,
-    "breed": "Scottish Terrier",
-    "location": "Tooleville, West Virginia"
+    "name": "Saudi Arabia",
+    "picture": "images/Saudi.png",
+    "Price": 0.001
   },
   {
     "id": 2,
-    "name": "Collins",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 2,
-    "breed": "French Bulldog",
-    "location": "Freeburn, Idaho"
-  },
+    "name": "Egypt",
+    "picture": "images/Egypt.png",
+    "Price": 0.001
+    },
   {
     "id": 3,
-    "name": "Melissa",
-    "picture": "images/boxer.jpeg",
-    "age": 2,
-    "breed": "Boxer",
-    "location": "Camas, Pennsylvania"
-  },
+    "name": "Uruguay",
+    "picture": "images/Uruguay.png",
+    "Price": 0.001
+    },
   {
     "id": 4,
-    "name": "Jeanine",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 2,
-    "breed": "French Bulldog",
-    "location": "Gerber, South Dakota"
-  },
-  {
+    "name": "Portugal",
+    "picture": "images/Portugal.png",
+    "Price": 0.001
+    },
+    {
     "id": 5,
-    "name": "Elvia",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 3,
-    "breed": "French Bulldog",
-    "location": "Innsbrook, Illinois"
-  },
+    "name": "Spain",
+    "picture": "images/Spain.png",
+    "Price": 0.001
+    },
   {
     "id": 6,
-    "name": "Latisha",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 3,
-    "breed": "Golden Retriever",
-    "location": "Soudan, Louisiana"
-  },
+    "name": "Morocco",
+    "picture": "images/Morocco.png",
+    "Price": 0.001
+    },
   {
     "id": 7,
-    "name": "Coleman",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 3,
-    "breed": "Golden Retriever",
-    "location": "Jacksonwald, Palau"
-  },
+    "name": "Iran",
+    "picture": "images/Iran.png",
+    "Price": 0.001
+    },
   {
     "id": 8,
-    "name": "Nichole",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 2,
-    "breed": "French Bulldog",
-    "location": "Honolulu, Hawaii"
-  },
+    "name": "France",
+    "picture": "images/France.png",
+    "Price": 0.001
+    },
   {
     "id": 9,
-    "name": "Fran",
-    "picture": "images/boxer.jpeg",
-    "age": 3,
-    "breed": "Boxer",
-    "location": "Matheny, Utah"
-  },
+    "name": "Australia",
+    "picture": "images/Australia.png",
+    "Price": 0.001
+    },
   {
     "id": 10,
-    "name": "Leonor",
-    "picture": "images/boxer.jpeg",
-    "age": 2,
-    "breed": "Boxer",
-    "location": "Tyhee, Indiana"
-  },
+    "name": "Peru",
+    "picture": "images/Peru.png",
+    "Price": 0.001
+    },
   {
     "id": 11,
-    "name": "Dean",
-    "picture": "images/scottish-terrier.jpeg",
-    "age": 3,
-    "breed": "Scottish Terrier",
-    "location": "Windsor, Montana"
-  },
+    "name": "Denmark",
+    "picture": "images/Denmark.png",
+    "Price": 0.001
+    },
   {
     "id": 12,
-    "name": "Stevenson",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 3,
-    "breed": "French Bulldog",
-    "location": "Kingstowne, Nevada"
-  },
+    "name": "Argentina",
+    "picture": "images/Argentina.png",
+    "Price": 0.001
+    },
   {
     "id": 13,
-    "name": "Kristina",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 4,
-    "breed": "Golden Retriever",
-    "location": "Sultana, Massachusetts"
-  },
+    "name": "Iceland",
+    "picture": "images/Iceland.png",
+    "Price": 0.001
+    },
   {
     "id": 14,
-    "name": "Ethel",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 2,
-    "breed": "Golden Retriever",
-    "location": "Broadlands, Oregon"
-  },
+    "name": "Croatia",
+    "picture": "images/Croatia.png",
+    "Price": 0.001
+    },
   {
     "id": 15,
-    "name": "Terry",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 2,
-    "breed": "Golden Retriever",
-    "location": "Dawn, Wisconsin"
-  }
-]
+    "name": "Nigeria",
+    "picture": "images/Nigeria.png",
+    "Price": 0.001
+    },
+  {
+    "id": 16,
+    "name": "Brazil",
+    "picture": "images/Brazil.png",
+    "Price": 0.001
+    },  
+  {
+    "id": 17,
+    "name": "Switzerland",
+    "picture": "images/Switzerland.png",
+    "Price": 0.001
+    },
+  {
+    "id": 18,
+    "name": "CostaRica",
+    "picture": "images/CostaRica.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 19,
+    "name": "Serbia",
+    "picture": "images/Serbia.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 20,
+    "name": "Germany",
+    "picture": "images/Germany.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 21,
+    "name": "Mexico",
+    "picture": "images/Mexico.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 22,
+    "name": "Sweden",
+    "picture": "images/Sweden.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 23,
+    "name": "Korea Repubic",
+    "picture": "images/Southkorea.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 24,
+    "name": "Belgium",
+    "picture": "images/Belgium.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 25,
+    "name": "Panama",
+    "picture": "images/Panama.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 26,
+    "name": "Tunisia",
+    "picture": "images/Tunis.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 27,
+    "name": "England",
+    "picture": "images/England.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 28,
+    "name": "Poland",
+    "picture": "images/Poland.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 29,
+    "name": "Senegal",
+    "picture": "images/Senegal.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 30,
+    "name": "Colombia",
+    "picture": "images/Colombia.png",
+    "Price": 0.001
+    },
+
+  {
+    "id": 31,
+    "name": "Japan",
+    "picture": "images/Japan.png",
+    "Price": 0.001
+    }
+  ]

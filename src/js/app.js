@@ -11,9 +11,7 @@ App = {
       for (i = 0; i < data.length; i ++) {
         petTemplate.find('.panel-title').text(data[i].name);
         petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
+        petTemplate.find('.Price').text(data[i].Price);
         petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
 
         petsRow.append(petTemplate.html());
@@ -64,8 +62,10 @@ App.contracts.Adoption.deployed().then(function(instance) {
   return adoptionInstance.getAdopters.call();
 }).then(function(adopters) {
   for (i = 0; i < adopters.length; i++) {
-    if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
+    if ((adopters[i] !== '0x0000000000000000000000000000000000000000') && (adopters[i] !== '0x')){
       $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
+      console.log("adopters != null, i =", i);
+      console.log("adopters != null, adopter[i] =", adopters[i]);
     }
   }
 }).catch(function(err) {

@@ -29,7 +29,7 @@ function testGetAdopterAddressByPetIdInArray() public {
   address expected = this;
 
   // Store adopters in memory rather than contract's storage
-  address[16] memory adopters = adoption.getAdopters();
+  address[32] memory adopters = adoption.getAdopters();
 
   Assert.equal(adopters[8], expected, "Owner of pet ID 8 should be recorded.");
 }
