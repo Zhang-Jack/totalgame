@@ -1,5 +1,5 @@
-var Adoption = artifacts.require("../contracts/Adoption.sol");
+var ItemToken = artifacts.require("../contracts/ItemToken.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Adoption);
+  deployer.deploy(ItemToken);
 };
