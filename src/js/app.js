@@ -59,7 +59,7 @@ web3.eth.filter('latest', function(error, result){
   },
 
   initContract: function() {
-$.getJSON('ItemToken.json', function(data) {
+$.getJSON('../ItemToken.json', function(data) {
   // Get the necessary contract artifact file and instantiate it with truffle-contract
   var AdoptionArtifact = data;
   App.contracts.ItemToken = TruffleContract(AdoptionArtifact);

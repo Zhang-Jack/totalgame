@@ -2,206 +2,206 @@
   {
     "id": 0,
     "name": "Russia",
-    "picture": "images/Russia.PNG",
+    "picture": "../images/teams/Russia.PNG",
     "Price": 0.001
   },
   {
     "id": 1,
     "name": "Saudi Arabia",
-    "picture": "images/Saudi.png",
+    "picture": "../images/teams/Saudi.png",
     "Price": 0.001
   },
   {
     "id": 2,
     "name": "Egypt",
-    "picture": "images/Egypt.png",
+    "picture": "../images/teams/Egypt.png",
     "Price": 0.001
     },
   {
     "id": 3,
     "name": "Uruguay",
-    "picture": "images/Uruguay.png",
+    "picture": "../images/teams/Uruguay.png",
     "Price": 0.001
     },
   {
     "id": 4,
     "name": "Portugal",
-    "picture": "images/Portugal.png",
+    "picture": "../images/teams/Portugal.png",
     "Price": 0.001
     },
     {
     "id": 5,
     "name": "Spain",
-    "picture": "images/Spain.png",
+    "picture": "../images/teams/Spain.png",
     "Price": 0.001
     },
   {
     "id": 6,
     "name": "Morocco",
-    "picture": "images/Morocco.png",
+    "picture": "../images/teams/Morocco.png",
     "Price": 0.001
     },
   {
     "id": 7,
     "name": "Iran",
-    "picture": "images/Iran.png",
+    "picture": "../images/teams/Iran.png",
     "Price": 0.001
     },
   {
     "id": 8,
     "name": "France",
-    "picture": "images/France.png",
+    "picture": "../images/teams/France.png",
     "Price": 0.001
     },
   {
     "id": 9,
     "name": "Australia",
-    "picture": "images/Australia.png",
+    "picture": "../images/teams/Australia.png",
     "Price": 0.001
     },
   {
     "id": 10,
     "name": "Peru",
-    "picture": "images/Peru.png",
+    "picture": "../images/teams/Peru.png",
     "Price": 0.001
     },
   {
     "id": 11,
     "name": "Denmark",
-    "picture": "images/Denmark.png",
+    "picture": "../images/teams/Denmark.png",
     "Price": 0.001
     },
   {
     "id": 12,
     "name": "Argentina",
-    "picture": "images/Argentina.png",
+    "picture": "../images/teams/Argentina.png",
     "Price": 0.001
     },
   {
     "id": 13,
     "name": "Iceland",
-    "picture": "images/Iceland.png",
+    "picture": "../images/teams/Iceland.png",
     "Price": 0.001
     },
   {
     "id": 14,
     "name": "Croatia",
-    "picture": "images/Croatia.png",
+    "picture": "../images/teams/Croatia.png",
     "Price": 0.001
     },
   {
     "id": 15,
     "name": "Nigeria",
-    "picture": "images/Nigeria.png",
+    "picture": "../images/teams/Nigeria.png",
     "Price": 0.001
     },
   {
     "id": 16,
     "name": "Brazil",
-    "picture": "images/Brazil.png",
+    "picture": "../images/teams/Brazil.png",
     "Price": 0.001
     },  
   {
     "id": 17,
     "name": "Switzerland",
-    "picture": "images/Switzerland.png",
+    "picture": "../images/teams/Switzerland.png",
     "Price": 0.001
     },
   {
     "id": 18,
     "name": "CostaRica",
-    "picture": "images/CostaRica.png",
+    "picture": "../images/teams/CostaRica.png",
     "Price": 0.001
     },
 
   {
     "id": 19,
     "name": "Serbia",
-    "picture": "images/Serbia.png",
+    "picture": "../images/teams/Serbia.png",
     "Price": 0.001
     },
 
   {
     "id": 20,
     "name": "Germany",
-    "picture": "images/Germany.png",
+    "picture": "../images/teams/Germany.png",
     "Price": 0.001
     },
 
   {
     "id": 21,
     "name": "Mexico",
-    "picture": "images/Mexico.png",
+    "picture": "../images/teams/Mexico.png",
     "Price": 0.001
     },
 
   {
     "id": 22,
     "name": "Sweden",
-    "picture": "images/Sweden.png",
+    "picture": "../images/teams/Sweden.png",
     "Price": 0.001
     },
 
   {
     "id": 23,
     "name": "Korea Repubic",
-    "picture": "images/Southkorea.png",
+    "picture": "../images/teams/Southkorea.png",
     "Price": 0.001
     },
 
   {
     "id": 24,
     "name": "Belgium",
-    "picture": "images/Belgium.png",
+    "picture": "../images/teams/Belgium.png",
     "Price": 0.001
     },
 
   {
     "id": 25,
     "name": "Panama",
-    "picture": "images/Panama.png",
+    "picture": "../images/teams/Panama.png",
     "Price": 0.001
     },
 
   {
     "id": 26,
     "name": "Tunisia",
-    "picture": "images/Tunis.png",
+    "picture": "../images/teams/Tunis.png",
     "Price": 0.001
     },
 
   {
     "id": 27,
     "name": "England",
-    "picture": "images/England.png",
+    "picture": "../images/teams/England.png",
     "Price": 0.001
     },
 
   {
     "id": 28,
     "name": "Poland",
-    "picture": "images/Poland.png",
+    "picture": "../images/teams/Poland.png",
     "Price": 0.001
     },
 
   {
     "id": 29,
     "name": "Senegal",
-    "picture": "images/Senegal.png",
+    "picture": "../images/teams/Senegal.png",
     "Price": 0.001
     },
 
   {
     "id": 30,
     "name": "Colombia",
-    "picture": "images/Colombia.png",
+    "picture": "../images/teams/Colombia.png",
     "Price": 0.001
     },
 
   {
     "id": 31,
     "name": "Japan",
-    "picture": "images/Japan.png",
+    "picture": "../images/teams/Japan.png",
     "Price": 0.001
     }
   ]

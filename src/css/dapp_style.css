@@ -1,0 +1,55 @@
+body,html{
+	padding:0px;
+	margin:0px;
+	font-family: 'Open Sans', sans-serif;
+    background-image: url("../images/turning.png");
+	}
+.banner-dapp{
+	padding:2em 0;
+	background:#70790C;
+	}
+.banner-dapp-left{
+	float:left;
+	width: 100%;
+	text-align: center;
+	}
+.banner-dapp-left p{
+	color:#fff;
+	font-size:24px;
+	margin:0;
+	font-family: 'Montserrat', sans-serif;
+	}
+
+.user-info{
+	float:left;
+    margin: 10px;
+}
+.user-info ul li{
+	display:inline-block;
+	color:#333;
+	padding:5px 0px 5px 18px;
+	display:block;
+	font-size:1.1em;
+	font-weight:600;
+    
+}
+
+.top-menu{
+	float:right;
+    margin: 20px;
+}
+.top-menu ul li{
+	display:inline-block;
+}
+.top-menu ul li a{
+	color:#333;
+	padding:5px 0px 5px 18px;
+	display:block;
+	font-size:1.1em;
+	font-weight:600;
+}
+.top-menu ul li a:hover,.top-menu ul li.active a{
+	color:#ddd;
+}
+
+
