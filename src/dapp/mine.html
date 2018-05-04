@@ -43,23 +43,26 @@
 			  <ul>
     <li>
         <a href="../index.html">Home</a></li>
-    <li class="active">
-        <a href="#">Market</a></li>
+    <li >
+        <a href="index.html">Market</a></li>
     <li>
         <a href="matches.html">Matches</a></li>
-    <li>
-        <a href="mine.html">Mine</a></li>
+    <li class="active">
+        <a href="#">Mine</a></li>
 			 </ul>       			        
 		 </div>	
 	<div class="banner-dapp">
 	<div class="container">
 		<div class="banner-dapp-left">
-			<p>Teams Market</p>
+			<p>Teams of Mine</p>      
 		</div>
 		<div class="clearfix"> </div>
 	</div>
 	</div>
-      <div class="row">
+	
+
+	</div>
+	      <div class="row">
 <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sort Method
             <span class="caret"></span></a>
@@ -73,12 +76,12 @@
         </div>    
 
         
-      <div id="petsRow" class="row">
+      <div id="myPetsRow" class="row">
         <!-- PETS LOAD HERE -->
       </div>
     </div>
 
-    <div id="petTemplate" style="display: none;">
+    <div id="myPetTemplate" style="display: none;">
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="panel panel-default panel-pet" panel-id=0 >
           <div class="panel-heading">
@@ -88,8 +91,7 @@
             <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
             <br/><br/>
             <strong>Owner</strong>: <span class="owner">null</span><br/>
-            <strong>Price</strong>: <span id="pricespan" class="Price">0.005</span><strong> ETH</strong><br/><br/>
-            <button class="btn btn-default btn-adopt" type="button" data-id="0">Buy</button>
+            <strong>Price</strong>: <span id="pricespan" class="Price">0.005</span><strong> ETH</strong><br/><br/>            
           </div>
         </div>
       </div>
@@ -102,6 +104,6 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/web3.min.js"></script>
     <script src="../js/truffle-contract.js"></script>
-    <script src="../js/app.js"></script>
+    <script src="../js/mine.js"></script>
   </body>
 </html>

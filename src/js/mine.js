@@ -3,24 +3,14 @@ App = {
   contracts: {},
   sortMethod: 0,
 
-  init: function() {
-    // Load pets.
-    $.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
-
-      for (i = 0; i < data.length; i ++) {
-        petTemplate.find('.panel-title').text(data[i].name);
-        petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.Price').text(data[i].Price);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
-        petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
-        petsRow.append(petTemplate.html());
-      }
-    });
-
+  init: function() {    
     return App.initWeb3();
   },
+
+
+
+
+
 
   initWeb3: function() {
     // Is there an injected web3 instance?
@@ -42,8 +32,7 @@ if(!defaultAccount || defaultAccount==null){
 }
 if(defaultAccount) real_balance = web3.eth.getBalance(defaultAccount, function(error, result){
     if(!error){
-        real_balance = Math.round(result/10000000000000000)/100;
-        
+        real_balance = Math.round(result/10000000000000000)/100;        
         console.log(JSON.stringify(result));
         balance.append(real_balance);
     }
@@ -58,10 +47,12 @@ web3.eth.filter('latest', function(error, result){
     console.log(error);  
 });
 
-    return App.initContract();
+
+
+    return App.initContract(defaultAccount );
   },
 
-  initContract: function() {
+  initContract: function(defaultAccount) {
 $.getJSON('../ItemToken.json', function(data) {
   // Get the necessary contract artifact file and instantiate it with truffle-contract
   var AdoptionArtifact = data;
@@ -69,6 +60,30 @@ $.getJSON('../ItemToken.json', function(data) {
 
   // Set the provider for our contract
   App.contracts.ItemToken.setProvider(App.web3Provider);
+
+App.contracts.ItemToken.deployed().then(function(instance) {
+  adoptionInstance = instance;
+  console.log('markAdopted entered');
+  return adoptionInstance.tokensOf(defaultAccount);
+}).then(function(items) {
+      // Load pets.  
+      $.getJSON('../pets.json', function(data) {
+        var myPetsRow = $('#myPetsRow');
+        var myPetTemplate = $('#myPetTemplate');
+        items.forEach(function(item){
+        for (i = 0; i < data.length; i ++) {                  
+          
+          if(i == parseInt(item)){
+            myPetTemplate.find('.panel-title').text(data[i].name);
+            myPetTemplate.find('img').attr('src', data[i].picture);
+            myPetTemplate.find('.Price').text(data[i].Price);        
+            myPetTemplate.find('.panel-pet').attr('panel-id', data[i].id);
+            myPetsRow.append(myPetTemplate.html());
+          }
+        }
+      });
+      });
+    });
 
   // Use our contract to retrieve and mark the adopted pets
   return App.markAdopted();
@@ -92,7 +107,7 @@ $.getJSON('../ItemToken.json', function(data) {
   //App.markAdopted();
   App.sortMethod = 1;
    console.log('PriceAscending button onclick ');
-   var items = $('#petsRow').find('.col-lg-3');
+   var items = $('#myPetsRow').find('.col-lg-3');
     var sorted = items.sort(function(a,b){
         return (ascending ==
                (convertToNumber($(a).find('#pricespan').html()) < 
@@ -100,7 +115,7 @@ $.getJSON('../ItemToken.json', function(data) {
     });
     //ascending = ascending ? false : true;
 
-    $('#petsRow').append(sorted);    
+    $('#myPetsRow').append(sorted);    
 
   },
 
@@ -111,7 +126,7 @@ $.getJSON('../ItemToken.json', function(data) {
   };  
   App.sortMethod = 2;
    console.log('PriceDescending button onclick ');
-   var items = $('#petsRow').find('.col-lg-3');
+   var items = $('#myPetsRow').find('.col-lg-3');
     var sorted = items.sort(function(a,b){
         return (ascending ==
                (convertToNumber($(a).find('#pricespan').html()) < 
@@ -119,7 +134,7 @@ $.getJSON('../ItemToken.json', function(data) {
     });
     //ascending = ascending ? false : true;
 
-    $('#petsRow').append(sorted);    
+    $('#myPetsRow').append(sorted);    
 
   },
 
@@ -177,7 +192,7 @@ App.contracts.ItemToken.deployed().then(function(instance) {
 
     var petId = parseInt($(event.target).data('id'));
     console.log('$(event.target).data(id) =', petId);
-    //console.log('$(.panel-pet) =',  $('#petsRow').find('#panel-id'));
+    //console.log('$(.panel-pet) =',  $('#myPetsRow').find('#panel-id'));
     //console.log('$(event.target).parentElement', $(event.target).parent());
 
     var ownerString =  $(event.target).parent().find('.owner').text();
@@ -231,6 +246,7 @@ web3.eth.getAccounts(function(error, accounts) {
 };
 
 $(function() {
+
   $(window).load(function() {    
     //var sortMethod = 0;
     App.init();
