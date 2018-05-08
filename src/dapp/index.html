@@ -43,7 +43,7 @@
 			  <ul>
     <li>
         <a href="../index.html">Home</a></li>
-    <li class="active">
+    <li class="market-tab active">
         <a href="#">Market</a></li>
     <li>
         <a href="matches.html">Matches</a></li>
@@ -72,6 +72,23 @@
     </li>        
         </div>    
 
+      <div class="row">
+      <div class="sec-menu">
+
+        <span class="menu"></span>
+			  <ul>
+         <li class="all-tab active"><a href="javascript:App.showAllTeams();">ALL TEAMS</a></li>
+				 <li class="fifa-tab"><a href="javascript:App.showFIFATeams();">FIFA WORLD CUP</a></li>
+				 <li class="pl-tab"><a href="javascript:App.showPLTeams();">Premier League</a></li>
+				 <li class="ll-tab"><a href="javascript:App.showLLTeams();">La Liga</a></li>
+				 <li class="lsa-tab"><a href="javascript:App.showLSATeams();">Lega Serie A</a></li>
+				 <li class="fb-tab"><a href="javascript:App.showFBTeams();">Fußball-Bundesliga</a></li>
+         <li class="l1-tab"><a href="javascript:App.showL1Teams();">Ligue 1</a></li>
+				 
+			 </ul>
+        </div>        
+        </div>   
+
         
       <div id="petsRow" class="row">
         <!-- PETS LOAD HERE -->
@@ -87,8 +104,10 @@
           <div class="panel-body">
             <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
             <br/><br/>
-            <strong>Owner</strong>: <span class="owner">null</span><br/>
-            <strong>Price</strong>: <span id="pricespan" class="Price">0.005</span><strong> ETH</strong><br/><br/>
+            <strong>Owner</strong>: <br/>  <span class="owner">null</span><br/>            
+            <strong>Group</strong>: <span class="Group">null</span><br/>
+            <strong>Price</strong>: <span id="pricespan" class="Price">0.005</span><strong> ETH</strong><br/>
+            <br/>
             <button class="btn btn-default btn-adopt" type="button" data-id="0">Buy</button>
           </div>
         </div>

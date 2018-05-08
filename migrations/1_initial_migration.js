@@ -1,5 +1,5 @@
-var Migrations = artifacts.require("./Migrations.sol");
+var ItemToken = artifacts.require("../contracts/ItemToken.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Migrations);
+  deployer.deploy(ItemToken);
 };

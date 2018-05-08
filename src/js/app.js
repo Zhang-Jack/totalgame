@@ -13,6 +13,7 @@ App = {
         petTemplate.find('.panel-title').text(data[i].name);
         petTemplate.find('img').attr('src', data[i].picture);
         petTemplate.find('.Price').text(data[i].Price);
+        petTemplate.find('.Group').text(data[i].Group);
         petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
         petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
         petsRow.append(petTemplate.html());
@@ -34,7 +35,10 @@ web3 = new Web3(App.web3Provider);
 var defaultAccount = web3.eth.defaultAccount;
 console.log('defaultAccount =',defaultAccount); 
 var account = $('#account');
-account.append(defaultAccount);
+var display_owner = defaultAccount.toString().substring(2,42);
+      display_owner = display_owner.toUpperCase(display_owner);
+      display_owner = "0x"+display_owner;
+account.append(display_owner);
 var balance = $('#balance');
 var real_balance =0.0;
 if(!defaultAccount || defaultAccount==null){
@@ -123,6 +127,153 @@ $.getJSON('../ItemToken.json', function(data) {
 
   },
 
+showAllTeams:function(){
+      $('li').removeClass('active');
+    $('.market-tab').addClass('active');    
+    $('.all-tab').addClass('active');
+    $.getJSON('../pets.json', function(data) {
+      var petsRow = $('#petsRow');
+      var petTemplate = $('#petTemplate');
+      petsRow.html("");    
+      for (i = 0; i < data.length; i ++) {
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('img').attr('src', data[i].picture);
+        petTemplate.find('.Price').text(data[i].Price);
+        petTemplate.find('.Group').text(data[i].Group);
+        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
+        petsRow.append(petTemplate.html());
+      }
+    });
+    return App.markAdopted();    
+},
+
+showFIFATeams:function(){
+      $('li').removeClass('active');
+    $('.market-tab').addClass('active');    
+    $('.fifa-tab').addClass('active');
+    $.getJSON('../pets.json', function(data) {
+      var petsRow = $('#petsRow');
+      var petTemplate = $('#petTemplate');
+      petsRow.html("");    
+      for (i = 0; i < 32; i ++) {
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('img').attr('src', data[i].picture);
+        petTemplate.find('.Price').text(data[i].Price);
+        petTemplate.find('.Group').text(data[i].Group);
+        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
+        petsRow.append(petTemplate.html());
+      }
+    });
+    return App.markAdopted();    
+},
+
+showPLTeams:function(){
+      $('li').removeClass('active');
+    $('.market-tab').addClass('active');    
+    $('.pl-tab').addClass('active');
+    $.getJSON('../pets.json', function(data) {
+      var petsRow = $('#petsRow');
+      var petTemplate = $('#petTemplate');
+      petsRow.html("");    
+      for (i = 32; i < 52; i ++) {
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('img').attr('src', data[i].picture);
+        petTemplate.find('.Price').text(data[i].Price);
+        petTemplate.find('.Group').text(data[i].Group);
+        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
+        petsRow.append(petTemplate.html());
+      }
+    });
+    return App.markAdopted();    
+},
+
+showLLTeams:function(){
+      $('li').removeClass('active');
+    $('.market-tab').addClass('active');    
+    $('.ll-tab').addClass('active');
+    $.getJSON('../pets.json', function(data) {
+      var petsRow = $('#petsRow');
+      var petTemplate = $('#petTemplate');
+      petsRow.html("");    
+      for (i = 52; i < 72; i ++) {
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('img').attr('src', data[i].picture);
+        petTemplate.find('.Price').text(data[i].Price);
+        petTemplate.find('.Group').text(data[i].Group);
+        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
+        petsRow.append(petTemplate.html());
+      }
+    });
+    return App.markAdopted();    
+},
+
+showLSATeams:function(){
+      $('li').removeClass('active');
+    $('.market-tab').addClass('active');    
+    $('.lsa-tab').addClass('active');
+    $.getJSON('../pets.json', function(data) {
+      var petsRow = $('#petsRow');
+      var petTemplate = $('#petTemplate');
+      petsRow.html("");    
+      for (i = 72; i < 92; i ++) {
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('img').attr('src', data[i].picture);
+        petTemplate.find('.Price').text(data[i].Price);
+        petTemplate.find('.Group').text(data[i].Group);
+        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
+        petsRow.append(petTemplate.html());
+      }
+    });
+    return App.markAdopted();    
+},
+
+showFBTeams:function(){
+      $('li').removeClass('active');
+    $('.market-tab').addClass('active');    
+    $('.fb-tab').addClass('active');
+    $.getJSON('../pets.json', function(data) {
+      var petsRow = $('#petsRow');
+      var petTemplate = $('#petTemplate');
+      petsRow.html("");    
+      for (i = 92; i < 110; i ++) {
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('img').attr('src', data[i].picture);
+        petTemplate.find('.Price').text(data[i].Price);
+        petTemplate.find('.Group').text(data[i].Group);
+        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
+        petsRow.append(petTemplate.html());
+      }
+    });
+    return App.markAdopted();
+},
+
+showL1Teams:function(){
+    $('li').removeClass('active');
+    $('.market-tab').addClass('active');    
+    $('.l1-tab').addClass('active');
+    $.getJSON('../pets.json', function(data) {
+      var petsRow = $('#petsRow');
+      var petTemplate = $('#petTemplate');
+      petsRow.html("");    
+      for (i = 110; i < 130; i ++) {
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('img').attr('src', data[i].picture);
+        petTemplate.find('.Price').text(data[i].Price);
+        petTemplate.find('.Group').text(data[i].Group);
+        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        petTemplate.find('.panel-pet').attr('panel-id', data[i].id);
+        petsRow.append(petTemplate.html());
+      }
+    });
+    return App.markAdopted();
+},
+
 
   markAdopted: function(adopters, account) {
 var adoptionInstance;
@@ -130,7 +281,7 @@ var adoptionInstance;
 App.contracts.ItemToken.deployed().then(function(instance) {
   adoptionInstance = instance;
   console.log('markAdopted entered');
-  return adoptionInstance.itemsForSaleLimit(0, 31);
+  return adoptionInstance.itemsForSaleLimit(0, 129);
 }).then(function(items) {
   for (i = 0; i <=items.length; i++) {
       //console.log("adopters != null, i =", i);
@@ -140,7 +291,8 @@ App.contracts.ItemToken.deployed().then(function(instance) {
       var n = onchain_Price.toString(); 
       //console.log('panel-pet =',$('.panel-pet'));
       //console.log('panel-id =', $('#panel-id'));  
-      var display_owner = Promise[1].toString().substring(2,8)+"..."+Promise[1].toString().substring(34,42);
+      //var display_owner = Promise[1].toString().substring(2,8)+"..."+Promise[1].toString().substring(34,42);
+      var display_owner = Promise[1].toString().substring(2,42);
       display_owner = display_owner.toUpperCase(display_owner);
       display_owner = "0x"+display_owner;
        $(".panel-pet[panel-id='"+Promise[0]+"']").find('.owner').text(display_owner);  

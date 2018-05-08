@@ -2,206 +2,1002 @@
   {
     "id": 0,
     "name": "Russia",
-    "picture": "../images/teams/Russia.PNG",
+    "picture": "../images/teams/FIFA_World_Cup/Russia.PNG",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
   },
   {
     "id": 1,
     "name": "Saudi Arabia",
-    "picture": "../images/teams/Saudi.png",
+    "picture": "../images/teams/FIFA_World_Cup/Saudi.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
   },
   {
     "id": 2,
     "name": "Egypt",
-    "picture": "../images/teams/Egypt.png",
+    "picture": "../images/teams/FIFA_World_Cup/Egypt.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 3,
     "name": "Uruguay",
-    "picture": "../images/teams/Uruguay.png",
+    "picture": "../images/teams/FIFA_World_Cup/Uruguay.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 4,
     "name": "Portugal",
-    "picture": "../images/teams/Portugal.png",
+    "picture": "../images/teams/FIFA_World_Cup/Portugal.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
     {
     "id": 5,
     "name": "Spain",
-    "picture": "../images/teams/Spain.png",
+    "picture": "../images/teams/FIFA_World_Cup/Spain.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 6,
     "name": "Morocco",
-    "picture": "../images/teams/Morocco.png",
+    "picture": "../images/teams/FIFA_World_Cup/Morocco.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 7,
     "name": "Iran",
-    "picture": "../images/teams/Iran.png",
+    "picture": "../images/teams/FIFA_World_Cup/Iran.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 8,
     "name": "France",
-    "picture": "../images/teams/France.png",
+    "picture": "../images/teams/FIFA_World_Cup/France.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 9,
     "name": "Australia",
-    "picture": "../images/teams/Australia.png",
+    "picture": "../images/teams/FIFA_World_Cup/Australia.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 10,
     "name": "Peru",
-    "picture": "../images/teams/Peru.png",
+    "picture": "../images/teams/FIFA_World_Cup/Peru.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 11,
     "name": "Denmark",
-    "picture": "../images/teams/Denmark.png",
+    "picture": "../images/teams/FIFA_World_Cup/Denmark.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 12,
     "name": "Argentina",
-    "picture": "../images/teams/Argentina.png",
+    "picture": "../images/teams/FIFA_World_Cup/Argentina.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 13,
     "name": "Iceland",
-    "picture": "../images/teams/Iceland.png",
+    "picture": "../images/teams/FIFA_World_Cup/Iceland.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 14,
     "name": "Croatia",
-    "picture": "../images/teams/Croatia.png",
+    "picture": "../images/teams/FIFA_World_Cup/Croatia.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 15,
     "name": "Nigeria",
-    "picture": "../images/teams/Nigeria.png",
+    "picture": "../images/teams/FIFA_World_Cup/Nigeria.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 16,
     "name": "Brazil",
-    "picture": "../images/teams/Brazil.png",
+    "picture": "../images/teams/FIFA_World_Cup/Brazil.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },  
   {
     "id": 17,
     "name": "Switzerland",
-    "picture": "../images/teams/Switzerland.png",
+    "picture": "../images/teams/FIFA_World_Cup/Switzerland.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
   {
     "id": 18,
     "name": "CostaRica",
-    "picture": "../images/teams/CostaRica.png",
+    "picture": "../images/teams/FIFA_World_Cup/CostaRica.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 19,
     "name": "Serbia",
-    "picture": "../images/teams/Serbia.png",
+    "picture": "../images/teams/FIFA_World_Cup/Serbia.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 20,
     "name": "Germany",
-    "picture": "../images/teams/Germany.png",
+    "picture": "../images/teams/FIFA_World_Cup/Germany.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 21,
     "name": "Mexico",
-    "picture": "../images/teams/Mexico.png",
+    "picture": "../images/teams/FIFA_World_Cup/Mexico.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 22,
     "name": "Sweden",
-    "picture": "../images/teams/Sweden.png",
+    "picture": "../images/teams/FIFA_World_Cup/Sweden.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 23,
     "name": "Korea Repubic",
-    "picture": "../images/teams/Southkorea.png",
+    "picture": "../images/teams/FIFA_World_Cup/Southkorea.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 24,
     "name": "Belgium",
-    "picture": "../images/teams/Belgium.png",
+    "picture": "../images/teams/FIFA_World_Cup/Belgium.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 25,
     "name": "Panama",
-    "picture": "../images/teams/Panama.png",
+    "picture": "../images/teams/FIFA_World_Cup/Panama.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 26,
     "name": "Tunisia",
-    "picture": "../images/teams/Tunis.png",
+    "picture": "../images/teams/FIFA_World_Cup/Tunis.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 27,
     "name": "England",
-    "picture": "../images/teams/England.png",
+    "picture": "../images/teams/FIFA_World_Cup/England.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 28,
     "name": "Poland",
-    "picture": "../images/teams/Poland.png",
+    "picture": "../images/teams/FIFA_World_Cup/Poland.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 29,
     "name": "Senegal",
-    "picture": "../images/teams/Senegal.png",
+    "picture": "../images/teams/FIFA_World_Cup/Senegal.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 30,
     "name": "Colombia",
-    "picture": "../images/teams/Colombia.png",
+    "picture": "../images/teams/FIFA_World_Cup/Colombia.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
     },
 
   {
     "id": 31,
     "name": "Japan",
-    "picture": "../images/teams/Japan.png",
+    "picture": "../images/teams/FIFA_World_Cup/Japan.png",
+    "Group": "2018 FIFA WORLD CUP",
     "Price": 0.001
-    }
+    },
+
+  {
+    "id": 32,
+    "name": "Arsenal",
+    "picture": "../images/teams/Premier_League/Arsenal.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+  {
+    "id": 33,
+    "name": "Bournemouth",
+    "picture": "../images/teams/Premier_League/Bournemouth.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 34,
+    "name": "Brighton",
+    "picture": "../images/teams/Premier_League/Brighton.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 35,
+    "name": "Burnley",
+    "picture": "../images/teams/Premier_League/Burnley.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 36,
+    "name": "Chelsea",
+    "picture": "../images/teams/Premier_League/Chelsea.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 37,
+    "name": "Crystal Palace",
+    "picture": "../images/teams/Premier_League/Crystal Palace.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 38,
+    "name": "Everton",
+    "picture": "../images/teams/Premier_League/Everton.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 39,
+    "name": "Huddersfield",
+    "picture": "../images/teams/Premier_League/Huddersfield.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 40,
+    "name": "Leicester City",
+    "picture": "../images/teams/Premier_League/Leicester City.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 41,
+    "name": "Liverpool",
+    "picture": "../images/teams/Premier_League/Liverpool.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 42,
+    "name": "Manchester City",
+    "picture": "../images/teams/Premier_League/Manchester City.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 43,
+    "name": "Manchester United",
+    "picture": "../images/teams/Premier_League/Manchester United.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 44,
+    "name": "Newcastle United",
+    "picture": "../images/teams/Premier_League/Newcastle United.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 45,
+    "name": "Southampton",
+    "picture": "../images/teams/Premier_League/Southampton.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 46,
+    "name": "Stoke City",
+    "picture": "../images/teams/Premier_League/Stoke City.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 47,
+    "name": "Swansea",
+    "picture": "../images/teams/Premier_League/Swansea.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 48,
+    "name": "Tottenham Hotspur",
+    "picture": "../images/teams/Premier_League/Tottenham Hotspur.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 49,
+    "name": "Watford",
+    "picture": "../images/teams/Premier_League/Watford.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 50,
+    "name": "West Bromwich Albion",
+    "picture": "../images/teams/Premier_League/West Bromwich Albion.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+        
+  {
+    "id": 51,
+    "name": "West Ham United",
+    "picture": "../images/teams/Premier_League/West Ham United.png",
+    "Group": "Premier League",
+    "Price": 0.001
+    },
+  {
+    "id": 52,
+    "name": "Athletic Bilbao",
+    "picture": "../images/teams/La_Liga/Athletic Bilbao.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+  {
+    "id": 53,
+    "name": "Atlético de Madrid",
+    "picture": "../images/teams/La_Liga/Atlético de Madrid.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 54,
+    "name": "CD Leganés",
+    "picture": "../images/teams/La_Liga/CD Leganés.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 55,
+    "name": "Celta de Vigo",
+    "picture": "../images/teams/La_Liga/Celta de Vigo.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 56,
+    "name": "Deportivo Alavés",
+    "picture": "../images/teams/La_Liga/Deportivo Alavés.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 57,
+    "name": "Deportivo de La Coruña",
+    "picture": "../images/teams/La_Liga/Deportivo de La Coruña.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 58,
+    "name": "FC Barcelona",
+    "picture": "../images/teams/La_Liga/FC Barcelona.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 59,
+    "name": "Getafe CF",
+    "picture": "../images/teams/La_Liga/Getafe CF.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 60,
+    "name": "Girona FC",
+    "picture": "../images/teams/La_Liga/Girona FC.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 61,
+    "name": "Levante UD",
+    "picture": "../images/teams/La_Liga/Levante UD.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 62,
+    "name": "Málaga CF",
+    "picture": "../images/teams/La_Liga/Málaga CF.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 63,
+    "name": "RCD Espanyol",
+    "picture": "../images/teams/La_Liga/RCD Espanyol.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 64,
+    "name": "Real Betis",
+    "picture": "../images/teams/La_Liga/Real Betis.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 65,
+    "name": "Real Madrid",
+    "picture": "../images/teams/La_Liga/Real Madrid.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 66,
+    "name": "Real Sociedad",
+    "picture": "../images/teams/La_Liga/Real Sociedad.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 67,
+    "name": "SD Eibar",
+    "picture": "../images/teams/La_Liga/SD Eibar.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 68,
+    "name": "Sevilla FC",
+    "picture": "../images/teams/La_Liga/Sevilla FC.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 69,
+    "name": "UD Las Palmas",
+    "picture": "../images/teams/La_Liga/UD Las Palmas.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 70,
+    "name": "Valencia CF",
+    "picture": "../images/teams/La_Liga/Valencia CF.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },        
+        
+  {
+    "id": 71,
+    "name": "Villarreal CF",
+    "picture": "../images/teams/La_Liga/Villarreal CF.png",
+    "Group": "Primera división de Liga",
+    "Price": 0.001
+    },    
+
+  {
+    "id": 72,
+    "name": "A.C. Chievo Verona",
+    "picture": "../images/teams/Lega_Serie_A/A.C. Chievo Verona.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+
+  {
+    "id": 73,
+    "name": "A.C. Milan",
+    "picture": "../images/teams/Lega_Serie_A/A.C. Milan.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 74,
+    "name": "A.S. Roma",
+    "picture": "../images/teams/Lega_Serie_A/A.S. Roma.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 75,
+    "name": "ACF Fiorentina",
+    "picture": "../images/teams/Lega_Serie_A/ACF Fiorentina.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 76,
+    "name": "Atalanta B.C.",
+    "picture": "../images/teams/Lega_Serie_A/Atalanta B.C..png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 77,
+    "name": "Benevento",
+    "picture": "../images/teams/Lega_Serie_A/Benevento.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 78,
+    "name": "Bologna F.C. 1909",
+    "picture": "../images/teams/Lega_Serie_A/Bologna F.C. 1909.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 79,
+    "name": "Cagliari Calcio",
+    "picture": "../images/teams/Lega_Serie_A/Cagliari Calcio.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 80,
+    "name": "F.C. Crotone",
+    "picture": "../images/teams/Lega_Serie_A/F.C. Crotone.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 81,
+    "name": "Genoa C.F.C.",
+    "picture": "../images/teams/Lega_Serie_A/Genoa C.F.C..png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 82,
+    "name": "Hellas Verona F.C.",
+    "picture": "../images/teams/Lega_Serie_A/Hellas Verona F.C..png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 83,
+    "name": "Inter Milan",
+    "picture": "../images/teams/Lega_Serie_A/Inter Milan.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 84,
+    "name": "Juventus F.C.",
+    "picture": "../images/teams/Lega_Serie_A/Juventus F.C..png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 85,
+    "name": "S.S. Lazio",
+    "picture": "../images/teams/Lega_Serie_A/S.S. Lazio.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 86,
+    "name": "S.S.C. Napoli",
+    "picture": "../images/teams/Lega_Serie_A/S.S.C. Napoli.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 87,
+    "name": "Sassuolo",
+    "picture": "../images/teams/Lega_Serie_A/Sassuolo.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 88,
+    "name": "SPAL",
+    "picture": "../images/teams/Lega_Serie_A/SPAL.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 89,
+    "name": "Torino F.C.",
+    "picture": "../images/teams/Lega_Serie_A/Torino F.C..png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 90,
+    "name": "U.C. Sampdoria",
+    "picture": "../images/teams/Lega_Serie_A/U.C. Sampdoria.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+    
+  {
+    "id": 91,
+    "name": "Udinese Calcio",
+    "picture": "../images/teams/Lega_Serie_A/Udinese Calcio.png",
+    "Group": "Lega Serie A",
+    "Price": 0.001
+    },
+
+  {
+    "id": 92,
+    "name": "1899 Hoffenheim",
+    "picture": "../images/teams/Fußball_Bundesliga/1899 Hoffenheim.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 93,
+    "name": "Bayer 04 Leverkusen",
+    "picture": "../images/teams/Fußball_Bundesliga/Bayer 04 Leverkusen.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 94,
+    "name": "BVB  Dortmund",
+    "picture": "../images/teams/Fußball_Bundesliga/BVB  Dortmund.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 95,
+    "name": "Eintracht Frankfurt",
+    "picture": "../images/teams/Fußball_Bundesliga/Eintracht Frankfurt.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 96,
+    "name": "FC Augsburg",
+    "picture": "../images/teams/Fußball_Bundesliga/FC Augsburg.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 97,
+    "name": "FC Bayern München",
+    "picture": "../images/teams/Fußball_Bundesliga/FC Bayern München.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 98,
+    "name": "FC Köln",
+    "picture": "../images/teams/Fußball_Bundesliga/FC Köln.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 99,
+    "name": "FC Schalke 04",
+    "picture": "../images/teams/Fußball_Bundesliga/FC Schalke 04.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 100,
+    "name": "FSV Mainz 05",
+    "picture": "../images/teams/Fußball_Bundesliga/FSV Mainz 05.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 101,
+    "name": "Hamburger SV",
+    "picture": "../images/teams/Fußball_Bundesliga/Hamburger SV.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 102,
+    "name": "Hannover 96",
+    "picture": "../images/teams/Fußball_Bundesliga/Hannover 96.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 103,
+    "name": "Hertha BSC",
+    "picture": "../images/teams/Fußball_Bundesliga/Hertha BSC.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 104,
+    "name": "Mönchengladbach",
+    "picture": "../images/teams/Fußball_Bundesliga/Mönchengladbach.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 105,
+    "name": "RasenBallsport Leipzig",
+    "picture": "../images/teams/Fußball_Bundesliga/RasenBallsport Leipzig.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 106,
+    "name": "SC Freiburg",
+    "picture": "../images/teams/Fußball_Bundesliga/SC Freiburg.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 107,
+    "name": "VfB Stuttgart",
+    "picture": "../images/teams/Fußball_Bundesliga/VfB Stuttgart.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 108,
+    "name": "VfL Wolfsburg",
+    "picture": "../images/teams/Fußball_Bundesliga/VfL Wolfsburg.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },
+  {
+    "id": 109,
+    "name": "Werder Bremen",
+    "picture": "../images/teams/Fußball_Bundesliga/Werder Bremen.png",
+    "Group": "Fußball-Bundesliga",
+    "Price": 0.001
+    },    
+  {
+    "id": 110,
+    "name": "Amiens SC",
+    "picture": "../images/teams/Ligue_1/Amiens SC.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+  {
+    "id": 111,
+    "name": "Angers SCO",
+    "picture": "../images/teams/Ligue_1/Angers SCO.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 112,
+    "name": "AS Monaco FC",
+    "picture": "../images/teams/Ligue_1/AS Monaco FC.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 113,
+    "name": "AS Saint-Étienne",
+    "picture": "../images/teams/Ligue_1/AS Saint-Étienne.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 114,
+    "name": "Dijon FCO",
+    "picture": "../images/teams/Ligue_1/Dijon FCO.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 115,
+    "name": "En Avant de Guingamp",
+    "picture": "../images/teams/Ligue_1/En Avant de Guingamp.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 116,
+    "name": "FC Girondins de Bordeaux",
+    "picture": "../images/teams/Ligue_1/FC Girondins de Bordeaux.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 117,
+    "name": "FC Metz",
+    "picture": "../images/teams/Ligue_1/FC Metz.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 118,
+    "name": "FC Nantes",
+    "picture": "../images/teams/Ligue_1/FC Nantes.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 119,
+    "name": "Lille OSC",
+    "picture": "../images/teams/Ligue_1/Lille OSC.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 120,
+    "name": "Montpellier HSC",
+    "picture": "../images/teams/Ligue_1/Montpellier HSC.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 121,
+    "name": "OGC Nice",
+    "picture": "../images/teams/Ligue_1/OGC Nice.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 122,
+    "name": "Olympique de Marseille",
+    "picture": "../images/teams/Ligue_1/Olympique de Marseille.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 123,
+    "name": "Olympique Lyonnais",
+    "picture": "../images/teams/Ligue_1/Olympique Lyonnais.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 124,
+    "name": "Paris Saint-Germain",
+    "picture": "../images/teams/Ligue_1/Paris Saint-Germain.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 125,
+    "name": "RC Strasbourg Alsace",
+    "picture": "../images/teams/Ligue_1/RC Strasbourg Alsace.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 126,
+    "name": "SM Caen",
+    "picture": "../images/teams/Ligue_1/SM Caen.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 127,
+    "name": "Stade Rennais",
+    "picture": "../images/teams/Ligue_1/Stade Rennais.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 128,
+    "name": "Toulouse FC",
+    "picture": "../images/teams/Ligue_1/Toulouse FC.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    },            
+        
+  {
+    "id": 129,
+    "name": "Troyes AC",
+    "picture": "../images/teams/Ligue_1/Troyes AC.png",
+    "Group": "Ligue 1",
+    "Price": 0.001
+    }        
+        
+        
   ]

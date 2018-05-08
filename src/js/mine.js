@@ -145,7 +145,7 @@ var adoptionInstance;
 App.contracts.ItemToken.deployed().then(function(instance) {
   adoptionInstance = instance;
   console.log('markAdopted entered');
-  return adoptionInstance.itemsForSaleLimit(0, 31);
+  return adoptionInstance.itemsForSaleLimit(0, 129);
 }).then(function(items) {
   for (i = 0; i <=items.length; i++) {
       //console.log("adopters != null, i =", i);
