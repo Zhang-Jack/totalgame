@@ -8,15 +8,21 @@ let mnemonic = '';
 if (fs.existsSync('pwd.json')) {
   secrets = fs.readFileSync('pwd.json', 'utf8').toString();
   if(secrets != undefined){
-    console.log(secrets);
+    //console.log(secrets);
     mnemonic = secrets;
-    console.log(mnemonic);
+    //console.log(mnemonic);
   }else{
     console.log("err occured");
   }
 }
 
 module.exports = {
+  solc: {
+    optimizer: {
+      enabled: true,
+      runs: 200
+    }
+  },
   networks: {
     ropsten: {
       provider: function() {       

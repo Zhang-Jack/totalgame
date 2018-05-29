@@ -10,6 +10,7 @@
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/dapp_style.css" rel="stylesheet">
+    <!--link href="../css/main.css" rel="stylesheet"-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,9 +33,17 @@
     <td>                        
     </td>    
     <td>
-    <div class="text-right"><strong>Balance:</strong></div>
-    <div class="text-right" id="balance"></div>
+    <div class="text-right user-balance"><strong>ETH Balance:</strong></div>
+    <div class="text-right user-balance" id="balance"></div>
     </td>
+    <td >                              
+    </td> 
+    <td>                        
+    </td>
+    <td>
+      <div class="text-right user-balance"><strong>TGC Balance:</strong></div>
+      <div class="text-right user-balance" id="TGCbalance"></div>
+      </td>    
     </tr>
     </table>                  
 </div>                 	                
@@ -54,19 +63,58 @@
 	<div class="banner-dapp">
 	<div class="container">
 		<div class="banner-dapp-left">
-			<p>Matches Prediction Page is being developed!</p>
-      <p>Coming Soon!</p>
+			<p>Matches</p>
+      <p></p>
 		</div>
 		<div class="clearfix"> </div>
 	</div>
 	</div>
 	
-	<div class="container">
+	<div class="container" id="gamesRow">
+      <div class="clearfix"> </div>
+  </div>		
+    <div class="row first-row small-up-1 medium-up-2" id="gameTemplate" style="display: none;">
+      <div class="column" >
+        <div class="game-block" >
+          <div class="game-block__back">
+            <div class="back"></div>
+            <div class="date"><span></span></div>
+            <div class="teams">
+              <div class="team" ><img id="teamA" src=""></div>
+              <div class="vs">vs</div>
+              <div class="team" ><img id="teamB" src=""></div>
+            </div>
+          </div>          
+            
+          <div class="game-block__bottom" game-id="0">
+            <div class="prize" ng-if="game.status !== 'CANCELING'">
+              <div class="caption">Smart Contract Value</div>
+              <div class="SmartContractValue"><span></span></div>
+            </div>
+            <div ng-if="game.status !== 'CANCELING'">
+                <div class="caption">Point Spread</div>
+                <div class="pointSpread">><span></span></div>
+              </div>
+            <!--div class="prize" ng-if="game.status === 'CANCELING'">
+              <div class="caption">Factor:</div>
+              <div class="count">Game cancelled</div>
+            </div-->
+            <button class="btn btn-default btn-bet" type="button" data-id="0">Make a bet ETH</button>
+            <button class="btn btn-default btn-redeem" type="button" data-id="0">Redeem ETH</button>
+            <!--a class="button" ng-class="{'j-popup-btn': game.urlPart === null}" data-popup="pick-score-coming-soon" data-id="0">
+              <span ng-if="game.status === 'PLAYING'">Make a bet ETH</span>
+              <span ng-if="game.status !== 'PLAYING' && game.status !== 'CANCELING'">View Game Details</span>
+              <span ng-if="game.status === 'CANCELING'">Return bet</span>
+            </a-->
+          </div>
+          <div class="game-block__footer">
+            <div class="right" id="timeStopBuy"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 		
-		<img src="../images/coming_soon.png"></img>
-		
-		<div class="clearfix"> </div>
-	</div>
+
 	
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -76,6 +124,8 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/web3.min.js"></script>
     <script src="../js/truffle-contract.js"></script>
-    <script src="../js/app.js"></script>
+    <script src="../js/matches.js"></script>
+    <script src="../js/angularjs/angular.min.js"></script>
+   
   </body>
 </html>

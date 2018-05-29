@@ -1,0 +1,52 @@
+[
+  {
+    "matchID": 0,
+    "TeamA": 0,
+    "TeamAPicture": "../images/teams/FIFA_World_Cup/Russia.PNG",
+    "TeamB": 1,
+    "TeamBPicture": "../images/teams/FIFA_World_Cup/Saudi.png",
+    "ScoreA": 0,
+    "ScoreB": 0,
+    "StartTime": 1528988400,
+    "Status": 1,
+    "PointSpread": -0.5
+  },
+  {
+    "matchID": 1,
+    "TeamA": 2,
+    "TeamAPicture": "../images/teams/FIFA_World_Cup/Egypt.png",
+    "TeamB": 3,
+    "TeamBPicture": "../images/teams/FIFA_World_Cup/Uruguay.png",
+    "ScoreA": 0,
+    "ScoreB": 0,
+    "StartTime": 1529064000,
+    "Status": 2,
+    "PointSpread": 1.5
+  },
+  {
+    "matchID": 2,
+    "TeamA": 4,
+    "TeamAPicture": "../images/teams/FIFA_World_Cup/Portugal.png",
+    "TeamB": 5,
+    "TeamBPicture": "../images/teams/FIFA_World_Cup/Spain.png",
+    "ScoreA": 0,
+    "ScoreB": 0,
+    "StartTime": 1527523200,
+    "Status": 2,
+    "PointSpread": 0.5
+  },
+  {
+    "matchID": 3,
+    "TeamA": 6,
+    "TeamAPicture": "../images/teams/FIFA_World_Cup/Morocco.png",
+    "TeamB": 7,
+    "TeamBPicture": "../images/teams/FIFA_World_Cup/Iran.png",
+    "ScoreA": 0,
+    "ScoreB": 0,
+    "StartTime": 1527496200,
+    "Status": 2,
+    "PointSpread": 0.5
+  }
+    
+
+]     

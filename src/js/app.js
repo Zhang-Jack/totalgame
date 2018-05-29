@@ -46,7 +46,7 @@ if(!defaultAccount || defaultAccount==null){
 }
 if(defaultAccount) real_balance = web3.eth.getBalance(defaultAccount, function(error, result){
     if(!error){
-        real_balance = Math.round(result/10000000000000000)/100;
+        real_balance = Math.round(result/100000000000000)/10000;
         
         console.log(JSON.stringify(result));
         balance.append(real_balance);

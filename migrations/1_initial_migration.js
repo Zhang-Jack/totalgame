@@ -1,5 +1,5 @@
 var ItemToken = artifacts.require("../contracts/ItemToken.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(ItemToken);
+  deployer.deploy(ItemToken, {overwrite: false});
 };
