@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Teams Market--- Crypto sport teams and prediction games </title>
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/dapp_style.css" rel="stylesheet">
+    <link href="../css/matchesDetail.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div class="user-info">
+        <span class="menu"></span>
+        <table>
+            <tr>
+                <td>
+                    <div class="text-left"><strong>User:</strong></div>
+                    <div class="text-left" id="account"></div>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <div class="text-right user-balance"><strong>ETH Balance:</strong></div>
+                    <div class="text-right user-balance" id="balance"></div>
+                    </td>
+                    <td >                              
+                    </td> 
+                    <td>                        
+                    </td>
+                    <td>
+                      <div class="text-right user-balance"><strong>TGC Balance:</strong></div>
+                      <div class="text-right user-balance" id="TGCbalance"></div>
+                </td>
+            </tr>
+        </table>
+        </div>
+    <div class="top-menu">
+        <span class="menu"></span>
+        <ul>
+            <li>
+                <a href="../index.html">Home</a></li>
+            <li>
+                <a href="index.html">Market</a></li>
+            <li class="active">
+                <a href="matches.html">Matches</a></li>
+            <li>
+                <a href="mine.html">Mine</a></li>
+        </ul>
+    </div>
+    <div class="banner-dapp">
+        <div class="container">
+            <div class="banner-dapp-left">
+                <p>Match Detail</p>
+                <p></p>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="row">
+        <button class="button button--big button_redeem">Redeem</button>
+    </div>
+    <div id="matchesDetailContainer">
+        <div class="container matches-box" id="gamesRow">
+            <section class="game-heading container">
+                <div class="row first-row small-up-1 medium-up-2 align-middle">
+                    <div class="column">
+                        <h1 class="section-title">Pick winner</h1>
+                    </div>
+                    <div class="column text-right">
+                        <div class="prize">
+                            <span class="caption">Smart Contract Value</span>
+                            <span class="count_right">
+                                <span>0.0</span> ETH
+                            </span>
+                            <a class="question-button question-button--small tooltiped tooltipstered" href="https://etherscan.io/address/0x3521b99f2020fe66213aa27aff326118cdea86a2" target="_blank">?</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="game-billboard" v-bind:style="{ backgroundImage: 'url(' + gameGroup.BackgroundImg + ')' }">
+                <div class="container animated fadeIn">
+                    <div class="row align-middle" itemscope="" itemtype="http://schema.org/SportsEvent">
+                        <div class="column small-order-2 medium-order-1 small-6 medium-4">
+                            <div class="team-logo">
+                                <div class="image">
+                                    <img :src="gameGroup.TeamAPicture" v-bind:alt="gameGroup.TeamA + 'logo'">
+                                </div><span itemprop="homeTeam" v-text="gameGroup.TeamA"></span>
+                            </div>
+                        </div>
+                        <div class="column small-order-1 medium-order-2 small-12 medium-4">
+                            <div class="date" itemprop="startDate" v-text="gameGroup.DeadlineTimeStr"></div>
+                            <div class="place" itemprop="location" v-text="gameGroup.City"></div>
+                            <div itemscope="" itemtype="http://schema.org/Thing">
+                                <div class="round" itemprop="description" v-text="gameGroup.Group"></div>
+                            </div>
+                            <div class="vs">vs</div>
+                            <div class="divider"></div>
+                            <div class="countdown">
+                                <div class="animated fadeIn">
+                                    <div v-if="gameGroup.Game_Status == 1 || gameGroup.Game_Status == 2" class="countdown__caption" v-text="'GAME CLOSES:'"></div>
+                                    <div v-else-if="gameGroup.Game_Status == 3" class="countdown__caption" v-text="'FINAL SCORE'"></div>
+                                    <div v-else class="countdown__caption" v-text="'CANCELLED'"></div>
+                                    <div v-if="gameGroup.Game_Status == 1 || gameGroup.Game_Status == 2" class="countdown__time" v-text="gameGroup.DeadlineTimeStr"></div>
+                                    <div v-if="gameGroup.Game_Status == 3" class="countdown__caption result_score" v-text="gameGroup.ScoreA + ' : ' + gameGroup.ScoreB"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column small-order-3 medium-order-3 small-6 medium-4">
+                            <div class="team-logo">
+                                <div class="image">
+                                    <img :src="gameGroup.TeamBPicture" v-bind:alt="gameGroup.TeamB + 'logo'">
+                                </div>
+                                <span itemprop="awayTeam" v-text="gameGroup.TeamB"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container">
+                <section class="buy-ticket-2" v-if="gameGroup.Game_Status == 1">
+                    <div class="row small-up-1 medium-up-3">
+                        <div class="column">
+                            <div class="buy-ticket-button wide" :class="{ active: isCheckWinner == 1 }" @click="checkWinner(1)">
+                                <img class="team-icon" :src="gameGroup.TeamAPicture" v-bind:alt="gameGroup.TeamA + 'logo'">
+                                <span>Win</span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="buy-ticket-button wide points_spread">Points Spread: 0.0</div>
+                        </div>
+                        <div class="column">
+                            <div class="buy-ticket-button wide" :class="{ active: isCheckWinner == 2 }" @click="checkWinner(2)">
+                                <img class="team-icon" :src="gameGroup.TeamBPicture" v-bind:alt="gameGroup.TeamB + 'logo'">
+                                <span>Win</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column small-12 medium-2">
+                            <label>Bet Value, ETH:</label>
+                            <div class="score-counter score-counter--right tooltipstered" data-min="0.005">
+                                <div class="score-counter__buttons">
+                                    <div class="up" @click="ETHUp">
+                                        <svg>
+                                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                                        </svg>
+                                    </div>
+                                    <div class="down" @click="ETHDown">
+                                        <svg>
+                                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="score-counter__count score-counter__count--small">
+                                    <input type="text" placeholder="0.05" v-model="ETHNumber" @keyup="ETHNumberHandle()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column small-12 medium-6">
+                            <label>Quick Amounts:</label>
+                            <div class="buy-ticket-button" :class="{ active: isCheckETH == 1 }" @click="checkETH(1)">
+                                0.005
+                            </div>
+                            <div class="buy-ticket-button" :class="{ active: isCheckETH == 2 }" @click="checkETH(2)">
+                                0.01
+                            </div>
+                            <div class="buy-ticket-button" :class="{ active: isCheckETH == 3 }" @click="checkETH(3)">
+                                0.015
+                            </div>
+                            <div class="buy-ticket-button" :class="{ active: isCheckETH == 4 }" @click="checkETH(4)">
+                                0.02
+                            </div>
+                            <div class="buy-ticket-button" :class="{ active: isCheckETH == 5 }" @click="checkETH(5)">
+                                0.025
+                            </div>
+                        </div>
+                        <div class="column small-12 medium-4 text-center">
+                            <label class="green upper">Smart Contract Value</label>
+                            <div class="grand-prize">
+                                <span class="">0</span> ETH
+                            </div>
+                            <a class="question-button question-button--small tooltiped tooltipstered" href="https://etherscan.io/address/0xB487D45F2d2A93b84e8f8C5074e256896bbf7D9c" target="_blank">?</a>
+                        </div>
+                    </div>
+                    <div class="row collapse small-up-1 medium-up-3 align-middle text-center">
+                        <div class="column">
+                            <div class="prize">Estimated win:&nbsp;
+                                <span v-text="ETHNumber + ' ETH'"></span>
+                            </div>
+                            <div class="question-button tooltiped tooltipstered" data-tooltip-content="#estimated-text">i</div>
+                            <div class="caption">Other players with this pick: <span class="">-</span></div>
+                        </div>
+                        <div class="column">
+                            <button class="button button--big" v-text="'make a (' + ETHNumber + ' eth) bet'" @click="makeBET"></button>
+                        </div>
+                        <div class="column">
+                            <label class="upper">Time to enter</label>
+                            <div class="time " v-text="gameGroup.DeadlineTimeStr"></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="previous-games container">
+                    <h2 class="section-title">Previous Games</h2>
+                    <h3 class="section-title section-title--small">Last matches</h3>
+                    <div class="table-wrapper">
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Tournament</td>
+                                        <td></td>
+                                        <td>Game Details</td>
+                                        <td></td>
+                                        <td>Game Played</td>
+                                        <td>Smart Contract Value</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="cursor: pointer;" v-for="item in gamesDoneList">
+                                        <td>
+                                            <span v-text="item.Group"></span>
+                                        </td>
+                                        <td>
+                                            <div class="logo-icon">
+                                                <img :src="item.TeamAPicture">
+                                            </div>
+                                            <span v-text="item.TeamA"></span>
+                                        </td>
+                                        <td v-text="item.ScoreA + ':' + item.ScoreB"></td>
+                                        <td>
+                                            <div class="logo-icon">
+                                                <img :src="item.TeamBPicture">
+                                            </div>
+                                            <span v-text="item.TeamB"></span>
+                                        </td>
+                                        <td>
+                                            <span v-text="item.DeadlineTimeStr"></span>
+                                        </td>
+                                        <td>
+                                            <div class="logo-icon">
+                                                <img src="../images/eth-icon.png">
+                                            </div>
+                                            <span class="eth" v-text="item.Contract_Value + ' ETH'"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row small-up-1 large-up-2 align-middle first-row">
+                            <div class="column small-order-2 large-order-1">
+                                <a class="button button--bordered" href="matches.html">View all games</a>
+                            </div>
+                            <div class="column small-order-1 large-order-2">
+                                <div class="total">
+                                    <span class="section-title section-title--small">Total ETH won </span>
+                                    <div class="logo-icon">
+                                        <img src="../images/eth-icon.png">
+                                    </div>
+                                    <span class="eth big" v-text="totalWon + ' ETH'"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <section class="more-games container">
+                <div class="text-center">
+                    <h2 class="section-title">More games</h2>
+                    <h3 class="section-title--small section-title--margin">Future matches</h3>
+                </div>
+                <div class="row first-row small-up-1 medium-up-2">
+                    <div class="col-sm-6 col-md-6 col-lg-6" v-for="item in moreGamesList">
+                        <div class="game-block">
+                            <div class="game-block__back">
+                                <div class="back" v-bind:style="{ backgroundImage: 'url(' + item.BackgroundImg + ')' }"></div>
+                                <div class="date">
+                                    <span class="game-type">PICK WINNER</span>
+                                    <span v-text="item.DeadlineTimeStr"></span>
+                                </div>
+                                <div class="teams">
+                                    <div class="team">
+                                        <img :src="item.TeamAPicture">
+                                        <span class="" v-text="item.TeamA"></span>
+                                    </div>
+                                    <div class="vs">vs</div>
+                                    <div class="team">
+                                        <img :src="item.TeamBPicture">
+                                        <span class="" v-text="item.TeamB"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="game-block__bottom">
+                                <div class="prize">
+                                    <div class="caption">SMART CONTRACT VALUE</div>
+                                    <div class="count" v-text="item.Contract_Value + ' ETH'"></div>
+                                </div>
+                                <a class="button" @click="goToDetail(item)">
+                                    <span>Make a bet (0.005 ETH)</span>
+                                </a>
+                            </div>
+                            <div class="game-block__footer">
+                                <div class="right">Deadline to Enter: 
+                                    <span v-text="item.DeadlineTimeStr"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/web3.min.js"></script>
+    <script src="../js/truffle-contract.js"></script>
+    <script src="../js/matchesDetail.js"></script>
+    <!-- <script src="../js/angularjs/angular.min.js"></script> -->
+</body>
+
+</html>

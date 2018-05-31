@@ -10,6 +10,7 @@
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/dapp_style.css" rel="stylesheet">
+    <link href="../css/matches.css" rel="stylesheet">
     <!--link href="../css/main.css" rel="stylesheet"-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -18,8 +19,10 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
     <div class="user-info">
     <span class="menu"></span>
   <table>
@@ -43,80 +46,134 @@
     <td>
       <div class="text-right user-balance"><strong>TGC Balance:</strong></div>
       <div class="text-right user-balance" id="TGCbalance"></div>
-      </td>    
-    </tr>
-    </table>                  
-</div>                 	                
-		 <div class="top-menu">
-			 <span class="menu"></span>
-			  <ul>
-    <li>
-        <a href="../index.html">Home</a></li>
-    <li >
-        <a href="index.html">Market</a></li>
-    <li class="active">
-        <a href="#">Matches</a></li>
-    <li>
-        <a href="mine.html">Mine</a></li>
-			 </ul>       			        
-		 </div>	
-	<div class="banner-dapp">
-	<div class="container">
-		<div class="banner-dapp-left">
-			<p>Matches</p>
-      <p></p>
-		</div>
-		<div class="clearfix"> </div>
-	</div>
-	</div>
-	
-	<div class="container" id="gamesRow">
-      <div class="clearfix"> </div>
-  </div>		
-    <div class="row first-row small-up-1 medium-up-2" id="gameTemplate" style="display: none;">
-      <div class="column" >
-        <div class="game-block" >
-          <div class="game-block__back">
-            <div class="back"></div>
-            <div class="date"><span></span></div>
-            <div class="teams">
-              <div class="team" ><img id="teamA" src=""></div>
-              <div class="vs">vs</div>
-              <div class="team" ><img id="teamB" src=""></div>
-            </div>
-          </div>          
-            
-          <div class="game-block__bottom" game-id="0">
-            <div class="prize" ng-if="game.status !== 'CANCELING'">
-              <div class="caption">Smart Contract Value</div>
-              <div class="SmartContractValue"><span></span></div>
-            </div>
-            <div ng-if="game.status !== 'CANCELING'">
-                <div class="caption">Point Spread</div>
-                <div class="pointSpread">><span></span></div>
-              </div>
-            <!--div class="prize" ng-if="game.status === 'CANCELING'">
-              <div class="caption">Factor:</div>
-              <div class="count">Game cancelled</div>
-            </div-->
-            <button class="btn btn-default btn-bet" type="button" data-id="0">Make a bet ETH</button>
-            <button class="btn btn-default btn-redeem" type="button" data-id="0">Redeem ETH</button>
-            <!--a class="button" ng-class="{'j-popup-btn': game.urlPart === null}" data-popup="pick-score-coming-soon" data-id="0">
-              <span ng-if="game.status === 'PLAYING'">Make a bet ETH</span>
-              <span ng-if="game.status !== 'PLAYING' && game.status !== 'CANCELING'">View Game Details</span>
-              <span ng-if="game.status === 'CANCELING'">Return bet</span>
-            </a-->
-          </div>
-          <div class="game-block__footer">
-            <div class="right" id="timeStopBuy"></div>
-          </div>
-        </div>
-      </div>
+                </td>
+            </tr>
+        </table>
     </div>
-		
-
-	
-
+    <div class="top-menu">
+        <span class="menu"></span>
+        <ul>
+            <li>
+                <a href="../index.html">Home</a></li>
+            <li>
+                <a href="index.html">Market</a></li>
+            <li class="active">
+                <a href="#">Matches</a></li>
+            <li>
+                <a href="mine.html">Mine</a></li>
+        </ul>
+    </div>
+    <div class="banner-dapp">
+        <div class="container">
+            <div class="banner-dapp-left">
+                <p>Matches</p>
+                <p></p>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="container matches-box" id="gamesRow">
+            <h2 class="section-title">All games</h2>
+            <div class="filter">
+                <div class="filter__top">
+                    <div class="tabs">
+                        <div class="item" :class="{ isAllActive: isAllGames }" @click="allGames">All games</div>
+                        <div class="item" :class="{ isAllActive: !isAllGames }" @click="pickWinner">Pick winner</div>
+                    </div>
+                    <div class="sort"><span class="sort-span">Sort by</span>
+                        <select class="sort-select" v-model="sortType" @change="sortVal()">
+                            <option value="1">Earliest</option>
+                            <option value="2" selected="selected">Latest</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter__bottom">
+                    <div class="count"><span v-text="total"></span> games</div>
+                    <div class="order" @click="showSearch">
+                        <svg class="order-svg">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </svg>
+                        <span>Filter / Search</span>
+                    </div>
+                </div>
+                <transition name="fade">
+                    <div class="filter__slide-block active" v-if="search">
+                        <div class="row first-row small-up-1 medium-up-2">
+                            <div class="column">
+                                <div class="input-wrapper">
+                                    <input class="input input--search" type="search" placeholder="Search team" v-model="searchStr" @keyup="gamesListHandle()">
+                                    <button class="search-button" type="button">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="tournament">
+                                    <span>Tournament</span>
+                                    <select v-model="tournamentType" @change="gamesListHandle()">
+                                        <option default="" value="all">View all</option>
+                                        <option v-for="(item,index) in TournamentGameList" :key="index" :value="item.groupName" v-text="item.groupName"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-title section-title--small">Game status</div>
+                        <div class="tags">
+                            <div class="tag" :class="{ active: gamesStatus == 1 }" @click="checkStatus(gamesStatus,1)">Open for Bets</div>
+                            <div class="tag" :class="{ active: gamesStatus == 2 }" @click="checkStatus(gamesStatus,2)">In progress</div>
+                            <div class="tag" :class="{ active: gamesStatus == 3 }" @click="checkStatus(gamesStatus,3)">Complete</div>
+                            <div class="tag" :class="{ active: gamesStatus == 4 }" @click="checkStatus(gamesStatus,4)">Cancelled</div>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+            <div class="row first-row small-up-1 medium-up-2" id="gameTemplate">
+                <div class="col-sm-6 col-md-6 col-lg-6" v-for="item in gamesList">
+                    <div class="game-block">
+                        <div class="game-block__back">
+                            <div class="back" v-bind:style="{ backgroundImage: 'url(' + item.BackgroundImg + ')' }"></div>
+                            <div class="date">
+                                    <!-- <span v-if="!item.HaveDraw" class="game-type">PICK WINNER</span>
+                                    <span v-else class="game-type">PICK WINNER (NO DRAW)</span> -->
+                                <span class="start-time" v-text="item.DeadlineTimeStr"></span></div>
+                            <div class="teams">
+                                <div class="team">
+                                    <img :src="item.TeamAPicture">
+                                    <span class="" v-text="item.TeamA"></span>
+                                </div>
+                                <div class="vs">vs</div>
+                                <div class="team">
+                                    <img :src="item.TeamBPicture">
+                                    <span class="" v-text="item.TeamB"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="game-block__bottom">
+                            <div class="prize">
+                                <div v-if="item.Game_Status != 4" class="caption">SMART CONTRACT VALUE</div>
+                                <div v-else class="caption">FACTOR:</div>
+                                <div v-if="item.Game_Status != 4" class="count" v-text="item.Contract_Value + ' ETH'"></div>
+                                <div v-else class="count">CANCELLED</div>
+                            </div>
+                            <a v-if="item.Game_Status == 1 || item.Game_Status == 2" class="eth-button" @click="goToDetail(item)">
+                                <span class="">Make a bet (0.005 ETH)</span>
+                            </a>
+                            <a v-else-if="item.Game_Status == 3" class="eth-button" @click="goToDetail(item)">
+                                <span class="">VIEW GAME DETAILS</span>
+                            </a>
+                            <a v-else class="eth-button" @click="goToDetail(item)">
+                                <span class="">RETURN BET</span>
+                            </a>
+                        </div>
+                        <div class="game-block__footer">
+                            <div class="right">Deadline to Enter: <span class="" v-text="item.DeadlineTimeStr"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
     <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
@@ -125,7 +182,7 @@
     <script src="../js/web3.min.js"></script>
     <script src="../js/truffle-contract.js"></script>
     <script src="../js/matches.js"></script>
-    <script src="../js/angularjs/angular.min.js"></script>
+    <!-- <script src="../js/angularjs/angular.min.js"></script> -->
    
   </body>
 </html>

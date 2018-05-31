@@ -1,38 +1,273 @@
+var gamesVue;
+
 App = {
   web3Provider: null,
   contracts: {},
   sortMethod: 0,
 
 
-  init: function() {
-    const Status = Object.freeze({
-      NOTFOUND:   0,
-      PLAYING:  1,
-      PROCESSING: 2,
-      PAYING: 3,
-      CANCELING: 4
-  });    
-    // Load pets.
-    $.getJSON('../matches.json', function(data) {
-      var gamesRow = $('#gamesRow');
-      var gameTemplate = $('#gameTemplate');
+    init: function() {
+        const Status = Object.freeze({
+            NOTFOUND: 0,
+            PLAYING: 1,
+            PROCESSING: 2,
+            PAYING: 3,
+            CANCELING: 4
+        });
+        // Load matches.        
+         $.getJSON('../matches.json', function(data) {
+             gamesVue = new Vue({
+                 el: '#container',
+                 data: {
+                     isAllGames: true,
+                     sortType: 2,
+                     tournamentType: 'all',
+                     search: false,
+                     isButton: false,
+                     gamesStatus: 0,
+                     gamesStatusStr: '',
+                     searchStr: '',
+                     gamesList: [],
+                     gamesAllList: [],
+                     TournamentList: [],
+                     TournamentGameList: []
+                 },
+                 mounted: function() {
+                     let TournamentList = []
+                     let TournamentGameList = []
+                     let gamesListRusult = []
+                     let matchId = 0
+                     data.forEach(function(element, index) {
+                         if (TournamentList.indexOf(element.Group) == -1) {
+                             let groupItem = {
+                                 groupName: '',
+                                 groupList: []
+                             }
+                             groupItem.groupName = element.Group
+                             groupItem.groupList[0] = element
+                             TournamentList.push(element.Group)
+                             TournamentGameList.push(groupItem)
+                         }
+                         TournamentGameList.forEach(function(TournamentItem, TournamentIndex) {
+                             if (TournamentItem.groupName == element.Group) {
+                                 TournamentItem.groupList.push(element)
+                             }
+                         });
+                     });
+                     data.sort(this.earlySort('DeadlineTime'))
+                     data.forEach(element => {
+                         // 比赛状态为未取消的相关设置,若为取消状态最初获取时就应该设置好 1 可下赌注  2 正在进行(今天正在进行的赌注)  3 已完成 4 已取消
+                         if (element.Game_Status != 4) {
+                             if (element.DeadlineTime <= new Date(new Date().toLocaleDateString()).getTime() / 1000) {
+                                 element.Game_Status = 2
+                             }
+                             if (element.DeadlineTime <= new Date().getTime() / 1000) {
+                                 element.Game_Status = 3
+                             }
+                         }
+                         //element.matchId = matchId += 1
+                         element.DeadlineTimeStr = new Date(element.DeadlineTime * 1000).toISOString()
+                         element.DeadlineTimeStr = element.DeadlineTimeStr.substring(0, 10) + ' ' + element.DeadlineTimeStr.substring(11, 19)
+                     });
+                     this.TournamentGameList = TournamentGameList
+                     this.gamesAllList = data
+                     this.gamesList = this.gamesAllList
+                 },
+                 computed: {
+                     total: function() {
+                         return this.gamesList.length
+                     },
+                 },
+                 methods: {
+                     earlySort(property) {
+                         return function(a, b) {
+                             var value1 = a[property];
+                             var value2 = b[property];
+                             return value2 - value1;
+                         }
+                     },
+                     lateSort(property) {
+                         return function(a, b) {
+                             var value1 = a[property];
+                             var value2 = b[property];
+                             return value1 - value2;
+                         }
+                     },
+                     gamesListHandle() {
+                         this.gamesList = []
+                         if (this.gamesStatus) {
+                             if (this.searchStr) {
+                                 if (this.isAllGames) {
+                                     if (this.tournamentType == "all") {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Game_Status == this.gamesStatus)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     } else {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType) && (item.Game_Status == this.gamesStatus)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     }
+                                 } else {
+                                     if (this.tournamentType == "all") {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     } else {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType) && (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     }
+                                 }
+                             } else {
+                                 if (this.isAllGames) {
+                                     this.gamesList = []
+                                     if (this.tournamentType == "all") {
+                                         this.gamesAllList.forEach(item => {
+                                             if (item.Game_Status == this.gamesStatus) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     } else {
+                                         this.gamesAllList.forEach(item => {
+                                             if (item.Group == this.tournamentType && item.Game_Status == this.gamesStatus) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     }
+                                 } else {
+                                     this.gamesList = []
+                                     if (this.tournamentType == "all") {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     } else {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (item.Group == this.tournamentType) && (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     }
+                                 }
+                             }
+                         } else {
+                             if (this.searchStr) {
+                                 if (this.isAllGames) {
+                                     if (this.tournamentType == "all") {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     } else {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     }
+                                 } else {
+                                     if (this.tournamentType == "all") {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.DeadlineTime >= new Date().getTime() / 1000)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     } else {
+                                         this.gamesAllList.forEach(item => {
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType) && (item.DeadlineTime >= new Date().getTime() / 1000)
+                                             if (flag) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     }
+                                 }
+                             } else {
+                                 if (this.isAllGames) {
+                                     this.gamesList = []
+                                     if (this.tournamentType == "all") {
+                                         this.gamesList = this.gamesAllList
+                                     } else {
 
-      for (i = 0; i < data.length; i ++) {
+                                         this.gamesAllList.forEach(item => {
+                                             if (item.Group == this.tournamentType) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     }
+                                 } else {
+                                     this.gamesList = []
+                                     if (this.tournamentType == "all") {
+                                         this.gamesAllList.forEach(item => {
+                                             if (item.DeadlineTime >= new Date().getTime() / 1000) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     } else {
+                                         this.gamesAllList.forEach(item => {
+                                             if (item.Group == this.tournamentType && item.DeadlineTime >= new Date().getTime() / 1000) {
+                                                 this.gamesList.push(item)
+                                             }
+                                         })
+                                     }
+                                 }
+                             }
+                         }
+
+                     },
+                     allGames() {
+                         this.isAllGames = !this.isAllGames
+                         this.gamesListHandle()
+                     },
+                     pickWinner() {
+                         this.isAllGames = !this.isAllGames
+                         this.gamesListHandle()
+                     },
+                     sortVal() {
+                         if (this.sortType == 2) {
+                             this.gamesList.sort(this.earlySort('DeadlineTime'))
+                         } else {
+                             this.gamesList.sort(this.lateSort('DeadlineTime'))
+                         }
+                     },
+                     checkStatus(gamesStatus, status) {
+                         if (gamesStatus != status) {
+                             this.gamesStatus = status
+                         } else {
+                             this.gamesStatus = 0
+                         }
+                         this.gamesListHandle()
+                     },
+                     showSearch() {
+                         this.search = !this.search
+                     },
+                     goToDetail(item) {
+                         localStorage.setItem('gamesList', JSON.stringify(this.gamesList));
+                         let url = "matchesDetail.html?TeamA=" + item.TeamA + "&TeamB=" + item.TeamB + "&Group=" + item.Group +"&matchID="+ item.matchID +"&TeamAID=" +item.TeamAID+"&TeamBID=" +item.TeamBID
+                         window.location.href = url;
+                     }
+                 },
+             })
+         });
         
-        startTime = new Date(data[i].StartTime*1000).toISOString();
-        startTimeDisplay = 'StartTime:'+startTime.substring(0, 10)+' '+startTime.substring(11, 19);
-        timeStopBuy = 'Deadline to Enter:'+startTime.substring(0, 10)+' '+startTime.substring(11, 19);
-        gameTemplate.find('#teamA').attr('src', data[i].TeamAPicture);
-        gameTemplate.find('#teamB').attr('src', data[i].TeamBPicture);
-
-        gameTemplate.find('.date').text(startTimeDisplay);
-        gameTemplate.find('.pointSpread').text(data[i].PointSpread);
-        gameTemplate.find('#timeStopBuy').text(timeStopBuy);
-        gameTemplate.find('.game-block__bottom').attr('game-id', data[i].matchID);
-        gameTemplate.find('.btn-bet').attr('data-id', data[i].matchID);
-        gamesRow.append(gameTemplate.html());
-      }
-    });
 
     return App.initWeb3();
   },
@@ -60,12 +295,11 @@ if(!defaultAccount || defaultAccount==null){
 }
 if(defaultAccount) real_balance = web3.eth.getBalance(defaultAccount, function(error, result){
     if(!error){
-        real_balance = Math.round(result/10000000000000000)/100;
+                real_balance = Math.round(result/100000000000000)/10000;
         
         console.log(JSON.stringify(result));
         balance.append(real_balance);
-    }
-    else
+            } else
         console.error(error);
 });
 
@@ -136,47 +370,49 @@ web3.eth.filter('latest', function(error, result){
           processinglist = parseInt(items[4].toString());
           console.log('processinglist =', processinglist);
 
-          for(gameID = 0; gameID < gameCount; gameID++){
-            ttgInstance.getLotteryByID(gameID).then(function(lottery){
-              gameIDCallBack = parseInt(lottery[3].toString());
-              console.log('gameID =', gameIDCallBack);
-              gameName = lottery[0].toString();
-              console.log('gameName =', gameName);
-              gameCountCombinations =   parseInt(lottery[1].toString());
-              console.log('gameCountCombinations =', gameCountCombinations);
-              dateStopBuy = new Date(parseInt(lottery[2].toString())*1000).toISOString();
-              dateStopBuyDay = dateStopBuy.substring(0, 10);
-              dateStopBuyTime = dateStopBuy.substring(11, 19);
-              console.log('dateStopBuy =', dateStopBuy);           
-              console.log('dateStopBuyDay =', dateStopBuyDay);
-              console.log('dateStopBuyTime =', dateStopBuyTime);
-              minStake =   parseInt(lottery[6].toString());
-              console.log('minStake =', minStake);  
-              winCombination =   parseInt(lottery[7].toString());
-              console.log('winCombination =', winCombination);                                 
-              betsCount =   parseInt(lottery[8].toString());
-              console.log('betsCount =', betsCount);  
-              betsSumIn =   parseInt(lottery[9].toString());
-              betsSumIn = Math.round(betsSumIn/100000000000000)/10000;             
-              console.log('betsSumIn =', betsSumIn);  
-              feeValue =   parseInt(lottery[10].toString());
-              console.log('feeValue =', feeValue);  
-              status =   lottery[11];
-              console.log('status =', status);  
-              isFreezing =  lottery[12];
-              console.log('isFreezing =', isFreezing);         
-              //TODO: need to add gameID to blockchain
-              $(".game-block__bottom[game-id='"+gameIDCallBack+"']").find('.SmartContractValue').text(betsSumIn);
-              //if playing, disable redeem button
-              if(status == 1){
-                $(".btn-redeem[game-id='"+gameIDCallBack+"']").disabled = true;                  
-              }               
-              else if(status == 3){
-                $(".btn-redeem[game-id='"+gameIDCallBack+"']").disabled = false;      
-              }                                                
+                for (gameID = 0; gameID < gameCount; gameID++) {
+                    ttgInstance.getLotteryByID(gameID).then(function(lottery) {
+                        gameIDCallBack = parseInt(lottery[3].toString());
+                        console.log('gameID =', gameIDCallBack);
+                        gameName = lottery[0].toString();
+                        console.log('gameName =', gameName);
+                        gameCountCombinations =   parseInt(lottery[1].toString());
+                        console.log('gameCountCombinations =', gameCountCombinations);
+                        dateStopBuy = new Date(parseInt(lottery[2].toString())*1000).toISOString();
+                        dateStopBuyDay = dateStopBuy.substring(0, 10);
+                        dateStopBuyTime = dateStopBuy.substring(11, 19);
+                        console.log('dateStopBuy =', dateStopBuy);           
+                        console.log('dateStopBuyDay =', dateStopBuyDay);
+                        console.log('dateStopBuyTime =', dateStopBuyTime);
+                        minStake =   parseInt(lottery[6].toString());
+                        console.log('minStake =', minStake);  
+                        winCombination =   parseInt(lottery[7].toString());
+                        console.log('winCombination =', winCombination);                                 
+                        betsCount =   parseInt(lottery[8].toString());
+                        console.log('betsCount =', betsCount);  
+                        betsSumIn =   parseInt(lottery[9].toString());
+                        betsSumIn = Math.round(betsSumIn/100000000000000)/10000;             
+                        console.log('betsSumIn =', betsSumIn);  
+                        feeValue =   parseInt(lottery[10].toString());
+                        console.log('feeValue =', feeValue);  
+                        status =   lottery[11];
+                        console.log('status =', status);  
+                        isFreezing =  lottery[12];
+                        console.log('isFreezing =', isFreezing);         
+                        //TODO: need to add gameID to blockchain
+                        //$(".game-block__bottom[game-id='"+gameIDCallBack+"']").find('.SmartContractValue').text(betsSumIn);
+                        for(var i = 0;i <= gamesVue.gamesAllList.length; i++){
+                            if(gamesVue.gamesAllList[i].matchID == gameIDCallBack){
+                                gamesVue.gamesAllList[i].Contract_Value = betsSumIn;
+                                gamesVue.gamesAllList[i].Game_Status = status;
+                            }
+                        }
 
-            })
-          };
+                        
+                        // gamesVue.gamesAllList[gameIDCallBack].Contract_Value = 10;
+                    })
+                    // console.log('gameCount===>',gamesVue)
+                };
 
           
       });
@@ -188,11 +424,11 @@ web3.eth.filter('latest', function(error, result){
   return App.bindEvents();
   },
 
-  bindEvents: function() {
-    $(document).on('click', '.btn-bet', App.handleBet);
-    $(document).on('click', '.btn-redeem', App.handleRedeem);    
-    $(document).on('click', '.PriceDescending', App.PriceDescending); 
-  },
+    bindEvents: function() {
+        $(document).on('click', '.btn-bet', App.handleBet);
+        $(document).on('click', '.PriceAscending', App.PriceAscending);
+        $(document).on('click', '.PriceDescending', App.PriceDescending);
+    },
 
   
 
@@ -235,26 +471,7 @@ web3.eth.filter('latest', function(error, result){
 
   },
 
-  handleRedeem:function(){
-    var matchIDOnRedeem = parseInt($(event.target).data('id'));
-    console.log('$(event.target).data(id) =', matchIDOnRedeem);
 
-      App.contracts.TTGOracle.deployed().then(function(instance) {
-        ttgInstance = instance;
-        //return ttgInstance.getUserTokens($('#account').text());
-      //}).then(function(items){
-        //var ticketsArray = items.spilt(',');
-        //ticketsArray.forEach(element => {
-          //ttgInstance.getTokenByID(parseInt(element)).then(function(callback){
-          //  console.log('callback[4]',callback[4])
-          //  console.log('callback[5]',callback[5])
-          //  if(callback[4] == matchIDOnRedeem){
-              return ttgInstance.redeemToken(10);
-          //  }
-          //})
-        //});
-      });
-  },
 
   markAdopted: function(adopters, account) {
 
@@ -263,8 +480,8 @@ web3.eth.filter('latest', function(error, result){
   handleBet: function(event) {
     event.preventDefault();
 
-    var matchIDOnBet = parseInt($(event.target).data('id'));
-    console.log('$(event.target).data(id) =', matchIDOnBet);
+        var matchID = parseInt($(event.target).data('id'));
+        console.log('$(event.target).data(id) =', matchID);
 
 
     var itemValueString =  $(event.target).parent().find('.Price').text();
@@ -284,35 +501,22 @@ web3.eth.getAccounts(function(error, accounts) {
     console.log(error);
   }
 
-  var account = accounts[0];
-  var teamIDOnBet = 0;
-  $.getJSON('../matches.json', function(data) {
-//    for (gameID =0; gameID <data.length; gameID++){
-//      if(data[i].matchID == matchIDOnBet){
-        //console.log('matches.json:', data);
-        teamIDOnBet = data[matchIDOnBet].TeamA;
-        console.log('teamIDOnBet 1=', teamIDOnBet);
-        App.contracts.TTGOracle.deployed().then(function(instance) {
-          TTGOracleInstance = instance;
-          
-          console.log('matchIDOnBet =', matchIDOnBet);
-          console.log('teamIDOnBet 2=', teamIDOnBet);
-          // Execute adopt as a transaction by sending account
-          return TTGOracleInstance.buyToken(matchIDOnBet, teamIDOnBet, 2, 0, {from: account, gas: 2000000, value: itemValue});
-        }).then(function(result) {
-          alert("Congratulations! You have bought a ticket for your team now!");    
-          //return App.markAdopted(); 
-        }).catch(function(err) {
-          alert("Oops, we have an error here", error);
-          console.log(err.message);
-        });
-//      }
-//    }
-    
+            var account = accounts[0];
 
-  });
-});
-  }
+            App.contracts.TTGOracle.deployed().then(function(instance) {
+                TTGOracleInstance = instance;
+
+                // Execute adopt as a transaction by sending account
+                return TTGOracleInstance.buyToken(matchID, 1, 0, { from: account, gas: 200000, value: itemValue });
+            }).then(function(result) {
+                alert("Congratulations! You have bought a ticket for your team now!");
+                //return App.markAdopted(); 
+            }).catch(function(err) {
+                alert("Oops, we have an error here", error);
+                console.log(err.message);
+            });
+        });
+    }
 
 };
 

@@ -55,6 +55,24 @@ if(defaultAccount) real_balance = web3.eth.getBalance(defaultAccount, function(e
         console.error(error);
 });
 
+$.getJSON('../TTGCoin.json', function(data){
+  var TTGCoinArtifact = data;
+  App.contracts.TTGCoin = TruffleContract(TTGCoinArtifact);
+  App.contracts.TTGCoin.setProvider(App.web3Provider);
+  App.contracts.TTGCoin.deployed().then(function(instance){
+    var ttgCoinInstance = instance;
+    return ttgCoinInstance.balanceOf(defaultAccount);
+  }).then(function(result){
+    var TGCbalance = $('#TGCbalance');
+    if(result){
+    tgc_balance = Math.round(result/10000000000000000)/100;
+    }else{
+      tgc_balance = 0;
+    }       
+    TGCbalance.append(tgc_balance);
+  });        
+});
+
 web3.eth.filter('latest', function(error, result){
   if (!error)
     console.log(result);
