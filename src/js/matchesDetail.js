@@ -4,6 +4,12 @@ App = {
     sortMethod: 0,
     captainAddress: 0,
     vueContainer: new Vue(),
+    account: 0,
+    estimatedWin: 0,
+    betsAllCount: 0,
+    redeemTokenID: 0,
+    
+
 
 
     init: function() {
@@ -35,11 +41,13 @@ App = {
                      total: 0,
                      gamesList: [],
                      gamesDoneList: [],
+                     betDataList: [],
                      totalWon: 0,
                      moreGamesList: [],
                      isCheckWinner: 0,
                      ETHNumber: 0.005,
-                     isCheckETH: 0,
+                     preEstimatedWin: 0.005,
+                     isCheckETH: 0,    
                      queryData: {
                          matchID: 0,                         
                          TeamA: '',
@@ -49,7 +57,9 @@ App = {
                          Group: '',
                          Points_Spread: 0,
                          eth: 0
-                     }
+                    },
+                    contractValueResult: 0,
+                    //isWinner: false, // 判断是否赢局投注中,动态显示按钮内容
                  },
                  mounted: function() {
                      let gamesList = JSON.parse(localStorage.getItem('gamesList'));
@@ -71,9 +81,10 @@ App = {
                              this.queryData.TeamBID = this.theRequest.TeamBID;
                              this.queryData.TeamA = this.theRequest.TeamA;
                              this.queryData.TeamB = this.theRequest.TeamB;
+                            let that = this
                              $.getJSON('../matches.json', matchIDQuery, function(data) {
-                                //this.queryData.Points_Spread = data[matchIDQuery].PointSpread;                                
-                                $("#matchesDetailContainer").find(".points_spread").text("Points Spread: "+data[matchIDQuery].PointSpread);
+                                // $("#matchesDetailContainer").find(".points_spread").text("Points Spread: " + data[matchIDQuery].PointSpread);
+                                that.queryData.Points_Spread = data[matchIDQuery].PointSpread
                              });
 
                          }
@@ -93,6 +104,17 @@ App = {
                          }
                      }
                  },
+                computed: {
+                    betList: function() {
+                        let list = []
+                        this.betDataList.forEach(element => {
+                            element.pickedPurchaseDateStr = new Date(element.pickedPurchaseDate * 1000).toISOString()
+                            element.pickedPurchaseDateStr = element.pickedPurchaseDateStr.substring(0, 10) + ' ' + element.pickedPurchaseDateStr.substring(11, 19)
+                            list.push(element)
+                        })
+                        return list;                        
+                    },
+                },
                  methods: {
                      checkWinner(winner) {
                          /*if (winner == 2) {
@@ -100,12 +122,30 @@ App = {
                                  return
                              }
                          } else {*/
-                             this.isCheckWinner = winner
-                         //}
+                            console.log('checkWinner ', winner);
+                             this.isCheckWinner = winner;
+                             App.vueContainer.isCheckWinner = winner;
+                             console.log('App.vueContainer.isCheckWinner',App.vueContainer.isCheckWinner);
+                    },
+                    pointsMouseover() {
+                        alert('Every match has an associated point spread. This is a positive or negative number that is added to the ﬁnal score of teamA (the home team) prior to evaluating the outcome of a match. This is done so that even teams with different skill levels can be traded at close to even odds, and also so that ties (“pushes”) cannot occur (because in most sports scores are integers but point spreads have fractional components). TotalGame chooses its point-spreads based of the initially posted vegas or off-shore lines.')
                      },
                      checkETH(eth) {
-                         this.isCheckETH = eth
-                         this.ETHNumber = eth * 0.005
+                         this.isCheckETH = eth;
+                         this.ETHNumber = eth * 0.005;
+                         App.contracts.TTGOracle.deployed().then(function(instance) {
+                            ttgInstance = instance; 
+                            console.log('App.vueContainer.ischeckWinner', App.vueContainer.isCheckWinner);
+                            ttgInstance['betsAll'](App.vueContainer.gameGroup.matchID, App.vueContainer.isCheckWinner).then(function(value){
+                                //if(err) console.log(err);
+                                if(value){
+                                App.estimatedWin =  (App.vueContainer.gameGroup.Contract_Value+App.vueContainer.ETHNumber*0.95)/((Math.round(parseInt(value[0].toString())/100000000000000)/10000)+App.vueContainer.ETHNumber*0.95);
+                                console.log(App.estimatedWin);
+                                App.vueContainer.preEstimatedWin = (App.estimatedWin*App.vueContainer.ETHNumber*0.95).toFixed(4);
+                                }
+                            });
+                        });
+                        
                      },
                      ETHNumberHandle() {
                          if (this.ETHNumber == 0.005) {
@@ -123,14 +163,14 @@ App = {
                          }
                      },
                      ETHUp() {
-                         this.ETHNumber += 0.005
+                        this.ETHNumber = (this.ETHNumber * 1000 + 0.005 * 1000) / 1000
                          this.ETHNumberHandle()
                      },
                      ETHDown() {
                          if (this.ETHNumber <= 0.005) {
                              return
                          }
-                         this.ETHNumber -= 0.005
+                        this.ETHNumber = (this.ETHNumber * 1000 - 0.005 * 1000) / 1000
                          this.ETHNumberHandle()
                      },
                      goToDetail(item) {
@@ -164,7 +204,7 @@ App = {
                             var account = accounts[0];
                          App.contracts.TTGOracle.deployed().then(function(instance) {
                             ttgInstance = instance;                                                                                                               
-                            return ttgInstance.buyToken(matchIDOnBet, teamIDOnBet, checkWinner, 0, {from: account, gas: 200000, value: ethOnBet});
+                            return ttgInstance.buyToken(matchIDOnBet, teamIDOnBet, checkWinner, 0, {from: account, gas: 300000, value: ethOnBet});
                             }).then(function(result) {
                                 console.log('buyToken succeed');
                                 alert("Congratulations! You have bought a ticket for your team now!");
@@ -175,9 +215,38 @@ App = {
                             });
                             
                         });
-                         //let url = "install_tutorial.html?"
-                         //window.location.href = url;
+                    },
+                    // 比赛取消时点击按钮事件
+                    returnBet() {
+                        // something
                      },
+                    // 比赛已结束时投注中点击按钮事件
+                    redeemETH(item) {
+                        
+                        App.redeemTokenID = item.tokenID;
+                        
+                        console.log('App.redeemTokenID', App.redeemTokenID);
+                        
+                        App.contracts.TTGOracle.deployed().then(function(instance) {
+                            var ttgInstance = instance;
+                            ttgInstance.redeemToken(App.redeemTokenID, App.vueContainer.gameGroup.teamWonID).then(function(result){                                
+                                if(result){
+                                    alert('Redeem ETH has been done, please check your wallet later!');
+                                    item.pickedHasPayed = true;
+                                } 
+
+                            });
+                        });
+                    },
+                    // 比赛已结束是未投注中点击事件
+                    redeemNoETH() {
+                        // something
+                    },
+                    // 已有投注列表,投注项目explore点击事件,item为列表项目数据
+                    userExplore(item) {
+                        console.log('item', item)
+                        // something
+                    }
                  },
              })
          });
@@ -195,6 +264,7 @@ App = {
         }
         web3 = new Web3(App.web3Provider);
         var defaultAccount = web3.eth.defaultAccount;
+        App.account = defaultAccount;
         console.log('defaultAccount =', defaultAccount);
         var account = $('#account');
         var display_owner = defaultAccount.toString().substring(2, 42);
@@ -224,13 +294,13 @@ App = {
               var ttgCoinInstance = instance;
               return ttgCoinInstance.balanceOf(defaultAccount);
             }).then(function(result){
-              var TGCbalance = $('#TGCbalance');
+              var TTGbalance = $('#TTGbalance');
               if(result){
               tgc_balance = Math.round(result/10000000000000000)/100;
               }else{
                 tgc_balance = 0;
               }       
-              TGCbalance.append(tgc_balance);
+              TTGbalance.append(tgc_balance);
             });        
         });
 
@@ -301,10 +371,14 @@ App = {
                         
                         App.vueContainer.gameGroup.Game_Status = status;
                         App.vueContainer.gameGroup.Contract_Value = betsSumIn;
+                        if(winCombination){
+                            App.vueContainer.gameGroup.teamWonID = winCombination == 1? App.vueContainer.gameGroup.TeamAID:App.vueContainer.gameGroup.TeamBID;
+                        }
+                        
                         display_contract_value = betsSumIn + ' ETH';
                         $("#matchesDetailContainer").find(".count_right").text(display_contract_value);
                         $("#matchesDetailContainer").find(".grand-prize").text(display_contract_value);
-                        
+                    App.vueContainer.contractValueResult = betsSumIn;
 
 
                     })
@@ -422,28 +496,106 @@ App = {
                         betsCount =   parseInt(lottery[8].toString());
                         // console.log('betsCount =', betsCount);  
                         betsSumIn =   parseInt(lottery[9].toString());
-                        betsSumIn = Math.round(betsSumIn/100000000000000)/10000;             
+                        var betsSumIn = Math.round(betsSumIn/100000000000000)/10000;             
                         // console.log('betsSumIn =', betsSumIn);  
                         feeValue =   parseInt(lottery[10].toString());
                         // console.log('feeValue =', feeValue);  
                         status =   lottery[11];
-                        // console.log('status =', status);  
+                        console.log('status =', status);  
                         isFreezing =  lottery[12];
                         // console.log('isFreezing =', isFreezing); 
                         
                         //$(".game-block__bottom[game-id=0]").find('.SmartContractValue').text(betsSumIn);
                         
                         App.vueContainer.gameGroup.Game_Status = status;
+                        console.log('App.vueContainer.gameGroup.Game_Status =', App.vueContainer.gameGroup.Game_Status);  
                         App.vueContainer.gameGroup.Contract_Value = betsSumIn;
+                        App.betsAllCount = betsCount;
                         display_contract_value = betsSumIn + ' ETH';
                         $("#matchesDetailContainer").find(".count_right").text(display_contract_value);
-                        $("#matchesDetailContainer").find(".grand-prize").text(display_contract_value);       
+                        $("#matchesDetailContainer").find(".grand-prize").text(display_contract_value); 
+                        App.vueContainer.gameGroup.Game_Status = status;
+                        App.vueContainer.gameGroup.Contract_Value = betsSumIn;
+                        if(winCombination){
+                            App.vueContainer.gameGroup.teamWonID = winCombination == 1? App.vueContainer.gameGroup.TeamAID:App.vueContainer.gameGroup.TeamBID;
+                        }                              
 
 
-                    })       
+                    });
+                    console.log('account =', App.account);
+                ttgInstance.getUserTokensByMatch(App.account, App.vueContainer.queryData.matchID).then(function(result){                    
+                    if(result){
+                    //console.log(result);
+                    var tickets = result.split(",");                    
+                    tickets.forEach(ticket=>{
+                        ttgInstance.getTokenByID(parseInt(ticket)).then(function(data){
+                            info= {pickedTeam: "",
+                            pickedTeamID: 0,
+                            pickedTeamPicture: "",
+                            pickedBetAmount: 0.005,
+                            pickedFactor: 2.63,
+                            pickedEstimatedWin: 0.013,
+                            pickedPurchaseDate: 1527988400,
+                            pickedOtherNum: 0,
+                            pickedPayMent: 0,
+                            pickedHasPayed: true,
+                            tokenID: 0};
+                            if(data[2] == 1){
+                                info.pickedTeam = App.vueContainer.gameGroup.TeamA;
+                                info.pickedTeamID = App.vueContainer.gameGroup.TeamAID;
+                                info.pickedTeamPicture = App.vueContainer.gameGroup.TeamAPicture;                                
+                                info.pickedBetAmount = Math.round(parseInt(data[0].toString())/100000000000000)/10000;
+                                info.pickedPurchaseDate = parseInt(data[3].toString());                             
+
+                            }else if(data[2] == 2){
+                                info.pickedTeam = App.vueContainer.gameGroup.TeamB;
+                                info.pickedTeamID = App.vueContainer.gameGroup.TeamBID;
+                                info.pickedTeamPicture = App.vueContainer.gameGroup.TeamBPicture;
+                                info.pickedBetAmount = Math.round(parseInt(data[0].toString())/100000000000000)/10000;
+                                info.pickedPurchaseDate = parseInt(data[3].toString());                             
+                                
+                            }    
+                            info.pickedOtherNum = App.betsAllCount > 0? (App.betsAllCount-1):0;
+                            sameComboBetsAmount = Math.round(parseInt(data[7].toString())/100000000000000)/10000;
+                            info.pickedFactor = App.vueContainer.gameGroup.Contract_Value/sameComboBetsAmount;
+                            info.pickedEstimatedWin = (info.pickedBetAmount/sameComboBetsAmount*App.vueContainer.gameGroup.Contract_Value).toFixed(4);
+                            info.pickedPayMent = Math.round(parseInt(data[1].toString())/100000000000000)/10000;
+                            info.pickedHasPayed = data[6];
+                            info.tokenID = parseInt(data[8].toString());
+                            console.log('info.pickedHasPayed', info.pickedHasPayed);
+                            App.vueContainer.betDataList.push(info);
+                            /*
+                            var EstimatedWin;
+                            console.log('data[4]', parseInt(data[4].toString()));
+                            console.log('data[2]', parseInt(data[2].toString()));
+                            ttgInstance['betsAll'](parseInt(data[4].toString()), parseInt(data[2].toString())).then(function(value){
+                                sameComboBetsAmount = Math.round(parseInt(value[0].toString())/100000000000000)/10000;
+                                console.log('sameComboBetsAmount =', sameComboBetsAmount);
+                                console.log('App.vueContainer.Contract_Value', App.vueContainer.gameGroup.Contract_Value);
+                                App.info.pickedFactor = App.vueContainer.gameGroup.Contract_Value/sameComboBetsAmount;
+                                App.info.pickedEstimatedWin = App.info.pickedBetAmount/sameComboBetsAmount*App.vueContainer.gameGroup.Contract_Value;
+                                console.log('info.pickedFactor =', App.info.pickedFactor);
+                                console.log('info.pickedEstimatedWin =', App.info.pickedEstimatedWin);                                
+                                App.vueContainer.betDataList.push(App.info);
+                            });*/
+                            
+                            // ttgInstance['betsAll'](3, 1, function (err, value){
+                                // if(err) console.log(err);
+                                // if(value) EstimatedWin = web3.fromWei(value[0].toString());
+                            // });
+                            
+                            //App.vueContainer.betDataList.push(info);
+                            
+                        })
+
+                    })
+                }
+
+                });           
+            
 
 
-            });
+            });            
 
         });
     },

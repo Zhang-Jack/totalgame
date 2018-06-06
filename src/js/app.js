@@ -63,13 +63,13 @@ $.getJSON('../TTGCoin.json', function(data){
     var ttgCoinInstance = instance;
     return ttgCoinInstance.balanceOf(defaultAccount);
   }).then(function(result){
-    var TGCbalance = $('#TGCbalance');
+    var TTGbalance = $('#TTGbalance');
     if(result){
     tgc_balance = Math.round(result/10000000000000000)/100;
     }else{
       tgc_balance = 0;
     }       
-    TGCbalance.append(tgc_balance);
+    TTGbalance.append(tgc_balance);
   });        
 });
 

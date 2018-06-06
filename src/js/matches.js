@@ -1,9 +1,8 @@
-var gamesVue;
-
 App = {
-  web3Provider: null,
-  contracts: {},
-  sortMethod: 0,
+    web3Provider: null,
+    contracts: {},
+    sortMethod: 0,
+    vueContainer: new Vue(),
 
 
     init: function() {
@@ -16,7 +15,7 @@ App = {
         });
         // Load matches.        
          $.getJSON('../matches.json', function(data) {
-             gamesVue = new Vue({
+            App.vueContainer = new Vue({
                  el: '#container',
                  data: {
                      isAllGames: true,
@@ -30,7 +29,8 @@ App = {
                      gamesList: [],
                      gamesAllList: [],
                      TournamentList: [],
-                     TournamentGameList: []
+                    TournamentGameList: [],
+                    page: 0,
                  },
                  mounted: function() {
                      let TournamentList = []
@@ -56,7 +56,7 @@ App = {
                      });
                      data.sort(this.earlySort('DeadlineTime'))
                      data.forEach(element => {
-                         // ±ÈÈü×´Ì¬ÎªÎ´È¡ÏûµÄÏà¹ØÉèÖÃ,ÈôÎªÈ¡Ïû×´Ì¬×î³õ»ñÈ¡Ê±¾ÍÓ¦¸ÃÉèÖÃºÃ 1 ¿ÉÏÂ¶Ä×¢  2 ÕıÔÚ½øĞĞ(½ñÌìÕıÔÚ½øĞĞµÄ¶Ä×¢)  3 ÒÑÍê³É 4 ÒÑÈ¡Ïû
+                         // æ¯”èµ›çŠ¶æ€ä¸ºæœªå–æ¶ˆçš„ç›¸å…³è®¾ç½®,è‹¥ä¸ºå–æ¶ˆçŠ¶æ€æœ€åˆè·å–æ—¶å°±åº”è¯¥è®¾ç½®å¥½ 1 å¯ä¸‹èµŒæ³¨  2 æ­£åœ¨è¿›è¡Œ(ä»Šå¤©æ­£åœ¨è¿›è¡Œçš„èµŒæ³¨)  3 å·²å®Œæˆ 4 å·²å–æ¶ˆ
                          if (element.Game_Status != 4) {
                              if (element.DeadlineTime <= new Date(new Date().toLocaleDateString()).getTime() / 1000) {
                                  element.Game_Status = 2
@@ -76,6 +76,15 @@ App = {
                  computed: {
                      total: function() {
                          return this.gamesList.length
+                    },
+                    dataList: function() {
+                        let list = this.gamesList.slice(this.page * 10, (this.page * 10) + 10)
+                        return list
+                    },
+                    numList: function() {
+                        let num = Math.ceil(this.gamesList.length / 10)
+                        let list = new Array(num)
+                        return list
                      },
                  },
                  methods: {
@@ -231,7 +240,7 @@ App = {
                                  }
                              }
                          }
-
+                        this.page = 0
                      },
                      allGames() {
                          this.isAllGames = !this.isAllGames
@@ -259,6 +268,9 @@ App = {
                      showSearch() {
                          this.search = !this.search
                      },
+                    goTo(index) {
+                        this.page = index
+                    },
                      goToDetail(item) {
                          localStorage.setItem('gamesList', JSON.stringify(this.gamesList));
                          let url = "matchesDetail.html?TeamA=" + item.TeamA + "&TeamB=" + item.TeamB + "&Group=" + item.Group +"&matchID="+ item.matchID +"&TeamAID=" +item.TeamAID+"&TeamBID=" +item.TeamBID
@@ -269,38 +281,38 @@ App = {
          });
         
 
-    return App.initWeb3();
-  },
+        return App.initWeb3();
+    },
 
-  initWeb3: function() {
-    // Is there an injected web3 instance?
-if (typeof web3 !== 'undefined') {
-  App.web3Provider = web3.currentProvider;
-} else {
-  // If no injected web3 instance is detected, fall back to Ganache
-  App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
-}
-web3 = new Web3(App.web3Provider);
-var defaultAccount = web3.eth.defaultAccount;
-console.log('defaultAccount =',defaultAccount); 
-var account = $('#account');
-var display_owner = defaultAccount.toString().substring(2,42);
-      display_owner = display_owner.toUpperCase(display_owner);
-      display_owner = "0x"+display_owner;
-account.append(display_owner);
-var balance = $('#balance');
-var real_balance =0.0;
-if(!defaultAccount || defaultAccount==null){
-  window.location.replace("../dapp/install_tutorial.html");
-}
-if(defaultAccount) real_balance = web3.eth.getBalance(defaultAccount, function(error, result){
-    if(!error){
+    initWeb3: function() {
+        // Is there an injected web3 instance?
+        if (typeof web3 !== 'undefined') {
+            App.web3Provider = web3.currentProvider;
+        } else {
+            // If no injected web3 instance is detected, fall back to Ganache
+            App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+        }
+        web3 = new Web3(App.web3Provider);
+        var defaultAccount = web3.eth.defaultAccount;
+        console.log('defaultAccount =', defaultAccount);
+        var account = $('#account');
+        var display_owner = defaultAccount.toString().substring(2, 42);
+        display_owner = display_owner.toUpperCase(display_owner);
+        display_owner = "0x" + display_owner;
+        account.append(display_owner);
+        var balance = $('#balance');
+        var real_balance = 0.0;
+        if (!defaultAccount || defaultAccount == null) {
+            window.location.replace("../dapp/install_tutorial.html");
+        }
+        if (defaultAccount) real_balance = web3.eth.getBalance(defaultAccount, function(error, result) {
+            if (!error) {
                 real_balance = Math.round(result/100000000000000)/10000;
-        
-        console.log(JSON.stringify(result));
-        balance.append(real_balance);
+
+                console.log(JSON.stringify(result));
+                balance.append(real_balance);
             } else
-        console.error(error);
+                console.error(error);
 });
 
 $.getJSON('../TTGCoin.json', function(data){
@@ -311,64 +323,63 @@ $.getJSON('../TTGCoin.json', function(data){
     var ttgCoinInstance = instance;
     return ttgCoinInstance.balanceOf(defaultAccount);
   }).then(function(result){
-    var TGCbalance = $('#TGCbalance');
+    var TTGbalance = $('#TTGbalance');
     if(result){
     tgc_balance = Math.round(result/10000000000000000)/100;
     }else{
       tgc_balance = 0;
     }       
-    TGCbalance.append(tgc_balance);
+    TTGbalance.append(tgc_balance);
   });
-});
+        });
 
-web3.eth.filter('latest', function(error, result){
-  if (!error)
-    console.log(result);
-  else
-    console.log(error);  
-});
+        web3.eth.filter('latest', function(error, result) {
+            if (!error)
+                console.log(result);
+            else
+                console.log(error);
+        });
 
-    return App.initContract();
-  },
+        return App.initContract();
+    },
 
-  initContract: function() {
+    initContract: function() {
 
-    $.getJSON('../ItemToken.json', function(data) {
-      // Get the necessary contract artifact file and instantiate it with truffle-contract
-      var AdoptionArtifact = data;
-      App.contracts.ItemToken = TruffleContract(AdoptionArtifact);
+        $.getJSON('../ItemToken.json', function(data) {
+            // Get the necessary contract artifact file and instantiate it with truffle-contract
+            var AdoptionArtifact = data;
+            App.contracts.ItemToken = TruffleContract(AdoptionArtifact);
 
-      // Set the provider for our contract
-      App.contracts.ItemToken.setProvider(App.web3Provider);
+            // Set the provider for our contract
+            App.contracts.ItemToken.setProvider(App.web3Provider);
 
-      // Use our contract to retrieve and mark the adopted pets
-      App.markAdopted();
-    });
+            // Use our contract to retrieve and mark the adopted pets
+            App.markAdopted();
+        });
 
+        $.getJSON('../TTGOracle.json', function(data) {
+            // Get the necessary contract artifact file and instantiate it with truffle-contract
+            var AdoptionArtifact = data;
+            App.contracts.TTGOracle = TruffleContract(AdoptionArtifact);
 
-      
-    $.getJSON('../TTGOracle.json', function(data) {
-      // Get the necessary contract artifact file and instantiate it with truffle-contract
-      var AdoptionArtifact = data;
-      App.contracts.TTGOracle = TruffleContract(AdoptionArtifact);
+            // Set the provider for our contract
+            App.contracts.TTGOracle.setProvider(App.web3Provider);
 
-      // Set the provider for our contract
-      App.contracts.TTGOracle.setProvider(App.web3Provider);
+            App.contracts.TTGOracle.deployed().then(function(instance) {
+                ttgInstance = instance;
+                return ttgInstance.getStatLotteries();
+            }).then(function(items) {
 
-      App.contracts.TTGOracle.deployed().then(function(instance) {
-        ttgInstance = instance;
-        return ttgInstance.getStatLotteries();
-      }).then(function(items){
-          gameCount = parseInt(items[0].toString());
-          console.log('gameCount =', gameCount);
-          playingCount = parseInt(items[1].toString());
-          console.log('playingCount =', playingCount);
-          processingCount = parseInt(items[2].toString());
-          console.log('processingCount =', processingCount);
-          playinglist = items[3].toString();
-          console.log('playinglist =', playinglist);
-          processinglist = parseInt(items[4].toString());
-          console.log('processinglist =', processinglist);
+                gameCount = parseInt(items[0].toString());
+                console.log('gameCount =', gameCount);
+                playingCount = parseInt(items[1].toString());
+                console.log('playingCount =', playingCount);
+                processingCount = parseInt(items[2].toString());
+                console.log('processingCount =', processingCount);
+                playinglist = items[3].toString();
+                console.log('playinglist =', playinglist);
+                processinglist = parseInt(items[4].toString());
+                console.log('processinglist =', processinglist);
 
                 for (gameID = 0; gameID < gameCount; gameID++) {
                     ttgInstance.getLotteryByID(gameID).then(function(lottery) {
@@ -401,10 +412,10 @@ web3.eth.filter('latest', function(error, result){
                         console.log('isFreezing =', isFreezing);         
                         //TODO: need to add gameID to blockchain
                         //$(".game-block__bottom[game-id='"+gameIDCallBack+"']").find('.SmartContractValue').text(betsSumIn);
-                        for(var i = 0;i <= gamesVue.gamesAllList.length; i++){
-                            if(gamesVue.gamesAllList[i].matchID == gameIDCallBack){
-                                gamesVue.gamesAllList[i].Contract_Value = betsSumIn;
-                                gamesVue.gamesAllList[i].Game_Status = status;
+                        for (var i = 0; i <= App.vueContainer.gamesAllList.length; i++) {
+                            if (App.vueContainer.gamesAllList[i].matchID == gameIDCallBack) {
+                                App.vueContainer.gamesAllList[i].Contract_Value = betsSumIn;
+                                App.vueContainer.gamesAllList[i].Game_Status = status;
                             }
                         }
 
@@ -414,15 +425,15 @@ web3.eth.filter('latest', function(error, result){
                     // console.log('gameCount===>',gamesVue)
                 };
 
-          
-      });
-      // Use our contract to retrieve and mark the adopted pets
-      //App.markAdopted();
-    });
+
+            });
+            // Use our contract to retrieve and mark the adopted pets
+            //App.markAdopted();
+        });
 
 
-  return App.bindEvents();
-  },
+        return App.bindEvents();
+    },
 
     bindEvents: function() {
         $(document).on('click', '.btn-bet', App.handleBet);
@@ -430,76 +441,76 @@ web3.eth.filter('latest', function(error, result){
         $(document).on('click', '.PriceDescending', App.PriceDescending);
     },
 
-  
-
-  PriceAscending: function(){
-  var ascending = false;
-  var convertToNumber = function(value){
-       return parseFloat(value);
-  };
-  //App.markAdopted();
-  App.sortMethod = 1;
-   console.log('PriceAscending button onclick ');
-   var items = $('#petsRow').find('.col-lg-3');
-    var sorted = items.sort(function(a,b){
-        return (ascending ==
-               (convertToNumber($(a).find('#pricespan').html()) < 
-                convertToNumber($(b).find('#pricespan').html()))) ? 1 : -1;
-    });
-    //ascending = ascending ? false : true;
-
-    $('#petsRow').append(sorted);    
-
-  },
-
-  PriceDescending: function(){
-  var ascending = true;
-  var convertToNumber = function(value){
-       return parseFloat(value);
-  };  
-  App.sortMethod = 2;
-   console.log('PriceDescending button onclick ');
-   var items = $('#petsRow').find('.col-lg-3');
-    var sorted = items.sort(function(a,b){
-        return (ascending ==
-               (convertToNumber($(a).find('#pricespan').html()) < 
-                convertToNumber($(b).find('#pricespan').html()))) ? 1 : -1;
-    });
-    //ascending = ascending ? false : true;
-
-    $('#petsRow').append(sorted);    
-
-  },
 
 
+    PriceAscending: function() {
+        var ascending = false;
+        var convertToNumber = function(value) {
+            return parseFloat(value);
+        };
+        //App.markAdopted();
+        App.sortMethod = 1;
+        console.log('PriceAscending button onclick ');
+        var items = $('#petsRow').find('.col-lg-3');
+        var sorted = items.sort(function(a, b) {
+            return (ascending ==
+                (convertToNumber($(a).find('#pricespan').html()) <
+                    convertToNumber($(b).find('#pricespan').html()))) ? 1 : -1;
+        });
+        //ascending = ascending ? false : true;
 
-  markAdopted: function(adopters, account) {
+        $('#petsRow').append(sorted);
 
-  },
+    },
 
-  handleBet: function(event) {
-    event.preventDefault();
+    PriceDescending: function() {
+        var ascending = true;
+        var convertToNumber = function(value) {
+            return parseFloat(value);
+        };
+        App.sortMethod = 2;
+        console.log('PriceDescending button onclick ');
+        var items = $('#petsRow').find('.col-lg-3');
+        var sorted = items.sort(function(a, b) {
+            return (ascending ==
+                (convertToNumber($(a).find('#pricespan').html()) <
+                    convertToNumber($(b).find('#pricespan').html()))) ? 1 : -1;
+        });
+        //ascending = ascending ? false : true;
+
+        $('#petsRow').append(sorted);
+
+    },
+
+
+
+    markAdopted: function(adopters, account) {
+
+    },
+
+    handleBet: function(event) {
+        event.preventDefault();
 
         var matchID = parseInt($(event.target).data('id'));
         console.log('$(event.target).data(id) =', matchID);
 
 
-    var itemValueString =  $(event.target).parent().find('.Price').text();
+        var itemValueString = $(event.target).parent().find('.Price').text();
 
-    console.log("value selected item string =", itemValueString );
+        console.log("value selected item string =", itemValueString);
 
-    var itemValue = parseFloat(itemValueString);    
+        var itemValue = parseFloat(itemValueString);
 
-    itemValue = web3.toWei(0.2, 'ether');
+        itemValue = web3.toWei(0.2, 'ether');
 
-    console.log("value selected item =", itemValue );    
+        console.log("value selected item =", itemValue);
 
-    var TTGOracleInstance;
+        var TTGOracleInstance;
 
-web3.eth.getAccounts(function(error, accounts) {
-  if (error) {
-    console.log(error);
-  }
+        web3.eth.getAccounts(function(error, accounts) {
+            if (error) {
+                console.log(error);
+            }
 
             var account = accounts[0];
 
@@ -521,8 +532,8 @@ web3.eth.getAccounts(function(error, accounts) {
 };
 
 $(function() {
-  $(window).load(function() {    
-    //var sortMethod = 0;
-    App.init();
-  });
+    $(window).load(function() {
+        //var sortMethod = 0;
+        App.init();
+    });
 });

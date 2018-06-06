@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Teams Market--- Crypto sport teams and prediction games </title>
+    <title>TotalGame --- Crypto sport teams and prediction games </title>
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/dapp_style.css" rel="stylesheet">
     <link href="../css/matchesDetail.css" rel="stylesheet">
-    <script type="text/javascript" src="../js/vue.js"></script>
+    <!--script type="text/javascript" src="../js/vue.js"></script-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
 </head>
 
 <body>
@@ -36,8 +37,8 @@
                     <td>                        
                     </td>
                     <td>
-                      <div class="text-right user-balance"><strong>TGC Balance:</strong></div>
-                      <div class="text-right user-balance" id="TGCbalance"></div>
+                      <div class="text-right user-balance"><strong>TTG Balance:</strong></div>
+                      <div class="text-right user-balance" id="TTGbalance"></div>
                 </td>
             </tr>
         </table>
@@ -64,9 +65,9 @@
             <div class="clearfix"> </div>
         </div>
     </div>
-    <div class="row">
-        <button class="button button--big button_redeem">Redeem</button>
-    </div>
+    <!--     <div class="row">
+        <button class="button button-big button_redeem">Redeem</button>
+    </div> -->
     <div id="matchesDetailContainer">
         <div class="container matches-box" id="gamesRow">
             <section class="game-heading container">
@@ -78,9 +79,9 @@
                         <div class="prize">
                             <span class="caption">Smart Contract Value</span>
                             <span class="count_right">
-                                <span>0.0</span> ETH
+                                <span v-text="contractValueResult"></span> ETH
                             </span>
-                            <a class="question-button question-button--small tooltiped tooltipstered" href="https://etherscan.io/address/0x3521b99f2020fe66213aa27aff326118cdea86a2" target="_blank">?</a>
+                            <a class="question-button question-button--small tooltiped tooltipstered" href="https://etherscan.io/address/0x5dc66C1835fD8d60ef2Ec31901Ee3F33dE9c61a1" target="_blank">?</a>
                         </div>
                     </div>
                 </div>
@@ -125,6 +126,7 @@
                 </div>
             </section>
             <div class="container">
+                <!-- <section class="buy-ticket-2" v-if="gameGroup.Game_Status == 1"> -->
                 <section class="buy-ticket-2" v-if="gameGroup.Game_Status == 1">
                     <div class="row small-up-1 medium-up-3">
                         <div class="column">
@@ -134,7 +136,7 @@
                             </div>
                         </div>
                         <div class="column">
-                            <div class="buy-ticket-button wide points_spread">Points Spread: 0.0</div>
+                            <div class="buy-ticket-button wide points_spread" title="Every match has an associated point spread. This is a positive or negative number that is added to the ﬁnal score of teamA (the home team) prior to evaluating the outcome of a match. This is done so that even teams with different skill levels can be traded at close to even odds, and also so that ties (“pushes”) cannot occur (because in most sports scores are integers but point spreads have fractional components). TotalGame chooses its point-spreads based of the initially posted vegas or off-shore lines.">Points Spread: {{queryData.Points_Spread}}</div>
                         </div>
                         <div class="column">
                             <div class="buy-ticket-button wide" :class="{ active: isCheckWinner == 2 }" @click="checkWinner(2)">
@@ -160,7 +162,7 @@
                                     </div>
                                 </div>
                                 <div class="score-counter__count score-counter__count--small">
-                                    <input type="text" placeholder="0.05" v-model="ETHNumber" @keyup="ETHNumberHandle()">
+                                    <input type="number" placeholder="0.05" v-model="ETHNumber" @keyup="ETHNumberHandle()">
                                 </div>
                             </div>
                         </div>
@@ -185,25 +187,103 @@
                         <div class="column small-12 medium-4 text-center">
                             <label class="green upper">Smart Contract Value</label>
                             <div class="grand-prize">
-                                <span class="">0</span> ETH
+                                <span v-text="contractValueResult"></span> ETH
                             </div>
-                            <a class="question-button question-button--small tooltiped tooltipstered" href="https://etherscan.io/address/0xB487D45F2d2A93b84e8f8C5074e256896bbf7D9c" target="_blank">?</a>
+                            <a class="question-button question-button--small tooltiped tooltipstered" href="https://etherscan.io/address/0x5dc66C1835fD8d60ef2Ec31901Ee3F33dE9c61a1" target="_blank">?</a>
                         </div>
                     </div>
                     <div class="row collapse small-up-1 medium-up-3 align-middle text-center">
                         <div class="column">
                             <div class="prize">Estimated win:&nbsp;
-                                <span v-text="ETHNumber + ' ETH'"></span>
-                            </div>
-                            <div class="question-button tooltiped tooltipstered" data-tooltip-content="#estimated-text">i</div>
-                            <div class="caption">Other players with this pick: <span class="">-</span></div>
+                                <span v-text="preEstimatedWin + ' ETH'"></span>
+                            </div>                            
                         </div>
                         <div class="column">
-                            <button class="button button--big" v-text="'make a (' + ETHNumber + ' eth) bet'" @click="makeBET"></button>
+                            <button v-if="gameGroup.Game_Status == 1" class="button button--big" v-text="'make a (' + ETHNumber + ' eth) bet'" @click="makeBET"></button>
+                            <button v-if="gameGroup.Game_Status == 2" class="button button--big">Game On Process</button>
+                            <button v-if="gameGroup.Game_Status == 3 && isWinner" class="button button--big" @click="redeemETH">Redeem ETH</button>
+                            <button v-if="gameGroup.Game_Status == 3 && !isWinner" class="button button--big" @click="redeemNoETH">Redeem ETH</button>
+                            <button v-if="gameGroup.Game_Status == 4" class="button button--big" @click="returnBet">Return Bet</button>
                         </div>
                         <div class="column">
                             <label class="upper">Time to enter</label>
                             <div class="time " v-text="gameGroup.DeadlineTimeStr"></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="previous-games container">
+                    <h2 class="section-title">Your Bet List</h2>
+                    <h3 class="section-title section-title--small">This matches bet list</h3>
+                    <div class="table-wrapper">
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Tournament</td>
+                                        <td></td>
+                                        <td>Game Details</td>
+                                        <td></td>
+                                        <td>Game Played</td>
+                                        <td>Smart Contract Value</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="cursor: pointer;">
+                                        <td>
+                                            <span v-text="gameGroup.Group"></span>
+                                        </td>
+                                        <td>
+                                            <div class="logo-icon">
+                                                <img :src="gameGroup.TeamAPicture">
+                                            </div>
+                                            <span v-text="gameGroup.TeamA"></span>
+                                        </td>
+                                        <td v-text="'VS'"></td>
+                                        <td>
+                                            <div class="logo-icon">
+                                                <img :src="gameGroup.TeamBPicture">
+                                            </div>
+                                            <span v-text="gameGroup.TeamB"></span>
+                                        </td>
+                                        <td>
+                                            <span v-text="gameGroup.DeadlineTimeStr"></span>
+                                        </td>
+                                        <td>
+                                            <div class="logo-icon">
+                                                <img src="../images/eth-icon.png">
+                                            </div>
+                                            <span class="eth" v-text="gameGroup.Contract_Value + ' ETH'"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bet-box" v-for="(item,index) in betList" :key="index">
+                            <div class="bet-item bet-right">
+                                <p>PICKED WINNER</p>
+                                <div class="picked-team">
+                                    <img :src="item.pickedTeamPicture">
+                                    <span class="picked-team-title" v-text="item.pickedTeam"></span>
+                                </div>
+                                <p>Bet Amount: <span v-text="item.pickedBetAmount"></span><span> ETH</span></p>
+                                <p>Factor: <span v-text="item.pickedFactor"></span></p>
+                            </div>
+                            <div class="bet-item bet-center">
+                                <P>ESTIMATED WIN</P>
+                                <P class="picked-estimated"><span v-text="item.pickedEstimatedWin"></span> ETH</P>
+                            </div>
+                            <div class="bet-item bet-left">
+                                <p>
+                                    <!--button v-if="gameGroup.Game_Status == 1" class="bet-explore" @click="userExplore(item)">EXPLORE</button>
+                                    <button v-if="gameGroup.Game_Status == 2" class="bet-explore">Game On Process</button-->
+                                    <button v-if="gameGroup.Game_Status == 3 && item.pickedPayMent && !item.pickedHasPayed" class="bet-explore" @click="redeemETH(item)">Redeem ETH</button>                                    
+                                    <button v-if="gameGroup.Game_Status == 3 && item.pickedPayMent && item.pickedHasPayed" class="bet-explore" >Has Been Paid</button>                                    
+                                    <!--button v-if="gameGroup.Game_Status == 3 && !isWinner" class="bet-explore" @click="gameDetails">Game Details</button-->
+                                    <button v-if="gameGroup.Game_Status == 4" class="bet-explore" @click="returnBet">Return Bet</button>
+                                </p>
+                                <p>Other Players with this match: <span v-text="item.pickedOtherNum"></span></p>
+                                <p>Purchase Date: <span v-text="item.pickedPurchaseDateStr"></span></p>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -224,7 +304,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr style="cursor: pointer;" v-for="item in gamesDoneList">
+                                    <tr style="cursor: pointer;" v-for="(item,index) in gamesDoneList" :key="index">
                                         <td>
                                             <span v-text="item.Group"></span>
                                         </td>
@@ -277,12 +357,12 @@
                     <h3 class="section-title--small section-title--margin">Future matches</h3>
                 </div>
                 <div class="row first-row small-up-1 medium-up-2">
-                    <div class="col-sm-6 col-md-6 col-lg-6" v-for="item in moreGamesList">
+                    <div class="col-sm-6 col-md-6 col-lg-6" v-for="(item,index) in moreGamesList" :key="index">
                         <div class="game-block">
                             <div class="game-block__back">
                                 <div class="back" v-bind:style="{ backgroundImage: 'url(' + item.BackgroundImg + ')' }"></div>
                                 <div class="date">
-                                    <span class="game-type">PICK WINNER</span>
+                                    <!-- <span class="game-type">PICK WINNER</span> -->
                                     <span v-text="item.DeadlineTimeStr"></span>
                                 </div>
                                 <div class="teams">
@@ -317,7 +397,8 @@
         </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <script src ="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.3/dist/loadingoverlay.min.js"></script>    
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/web3.min.js"></script>

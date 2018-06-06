@@ -557,3 +557,79 @@ a {
   opacity: 0;
   height: 0;
 }
+.pagination {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+.pagination {
+    font-size: 18px;
+    font-weight: 800;
+}
+.pagination .pages {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.pagination .pages .page.active {
+    background: -webkit-linear-gradient(145deg,#749235,#acbc20);
+    background: -moz-linear-gradient(145deg,#749235,#acbc20);
+    background: -o-linear-gradient(145deg,#749235,#acbc20);
+    background: linear-gradient(-55deg,#749235,#acbc20);
+}
+.pagination .pages .page {
+    height: 60px;
+    width: 60px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 60px;
+    /* color: #fff; */
+    -webkit-transition: .4s;
+    -o-transition: .4s;
+    -moz-transition: .4s;
+    transition: .4s;
+    cursor: pointer;
+    background-color: #fff;
+}
+button {
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background: transparent;
+    line-height: 1;
+    cursor: auto;
+}
+.pagination .arrows .arrow[disabled] {
+    color: #98abb7;
+}
+.pagination .arrows .arrow {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    font-weight: 800;
+}

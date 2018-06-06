@@ -191,3 +191,36 @@ body,html{
 	  justify-content: space-between; }
 	  .game-block__footer span {
 		color: #25343e; }
+.empty-page {
+    text-align: center;
+    font-size: 20px;
+    line-height: 30px;
+    color: #98abb7;
+}
+
+.empty-page img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+}
+
+.empty-page__title {
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.empty-page p {
+    margin-bottom: 1rem;
+    font-size: inherit;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+}
+p.none-content{
+	max-width: 600px;
+	margin: 0 auto;
+	color: #112345;
+}

@@ -412,7 +412,7 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 	ITTGCoin private ttgCoin;
 	IItemToken private itemToken;
 	uint32 private userAirDropRate = 1000;
-	uint32 private ownerAirDropRate = 50;
+	uint32 private ownerAirDropRate = 100;
 
 	struct Stake {
 		uint256 sum;		// amount bets
@@ -507,7 +507,9 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 			uint32 dateBuy,
 			uint32 idLottery,
 			address ownerToken,
-			bool payout
+			bool payout,
+			uint256 sameComboAmount,
+			uint256 tokenID
 	){
 		Token storage tkn = tokens[_id];
 
@@ -518,6 +520,8 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 		idLottery   = uint32((packed >> (8*8)) & 0xFFFFFFFF);
 		combination = uint32((packed >> (4*8)) & 0xFFFFFFFF);
 		dateBuy     = uint32(packed & 0xFFFFFFFF);
+		sameComboAmount = betsAll[idLottery][combination].sum;
+		tokenID = _id;
 
 		payment = 0;
 		Game storage curGame = game[idLottery];
@@ -544,6 +548,28 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 				res = strConcat( res, ",", uint2str(i) );
 				findCount++;
 				if (count!=0 && findCount>=count) break;
+			}
+		}
+	}
+
+	function getUserTokensByMatch(address user, uint32 matchID) public view returns ( string res ) 
+	{
+		res="";
+		require(user!=0x0);
+		uint32 findCount=0;
+		for (uint256 i = totalSupply-1; i >= 0; i--)
+		{
+			if(i>totalSupply) break;
+			if (user == tokenIndexToOwner[i]) 
+			{
+				Token storage tkn = tokens[i];
+				uint256 packed = tkn.option;
+				uint32 idStored   = uint32((packed >> (8*8)) & 0xFFFFFFFF);
+				if(idStored == matchID){
+					res = strConcat( res, ",", uint2str(i) );
+					findCount++;
+				}
+				
 			}
 		}
 	}
@@ -638,19 +664,24 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 		
 		uint256 userStake = msg.value;
 		uint256 airDropAmountUser = userStake.mul(userAirDropRate); 
-		uint amountHasDropped = ttgCoin.airDrop(this, msg.sender, airDropAmountUser);
-		//address teamOwner = itemToken.ownerOf(teamID);
-		//ttgCoin.airDrop(teamOwner, userStake.mul(ownerAirDropRate));   //team owner 
-
-		uint256 feeValue = userStake.mul(5).div(100);		// 5% fee for contract
+		if(airDropAmountUser > 1000*10**18) airDropAmountUser = 1000*10**18;
+		ttgCoin.airDrop(this, msg.sender, airDropAmountUser);
+		address teamOwner = itemToken.ownerOf(teamID);
+		if(teamOwner!=0x0){
+			uint256 airDropAmountOwner = userStake.mul(ownerAirDropRate); 	
+			if(airDropAmountOwner > 1000*10**18) airDropAmountOwner = 1000*10**18;			
+			ttgCoin.airDrop(this, teamOwner, airDropAmountOwner);   //for team owner 
+		}
+		uint256 feeValue = userStake.mul(4).div(100);		// 4% fee for contract
 		userStake = userStake.minus(feeValue);
 		
 		if (captainAddress!=0x0) 
 		{
-			uint256 captainValue = feeValue.mul(20).div(100);		// bonus for captain = 1%
-			feeValue = feeValue - captainValue;
-			require(feeValue + captainValue + userStake == msg.value);
-			captainAddress.transfer(captainValue);
+			//uint256 captainValue = feeValue.mul(20).div(100);		// bonus for captain = 1%
+			// feeValue = feeValue - captainValue;
+			// require(feeValue + captainValue + userStake == msg.value);
+			// captainAddress.transfer(captainValue);
+			ttgCoin.airDrop(this, captainAddress, airDropAmountOwner);   //team owner 
 		}
 
 		curGame.feeValue  = curGame.feeValue.add(feeValue);
@@ -673,7 +704,7 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 	}
 	
 	// take win money or money for canceling lottery
-	function redeemToken(uint256 _tokenId) public 
+	function redeemToken(uint256 _tokenId, uint32 teamID) public 
 	{
 		Token storage tkn = tokens[_tokenId];
 
@@ -692,7 +723,14 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 
 		uint256 sumPayment = 0;
 		if ( curGame.status == Status.CANCELING ) sumPayment = tkn.price;
-		if ( curGame.status == Status.PAYING ) sumPayment = curGame.betsSumIn * tkn.price / betsAll[idLottery][curGame.winCombination].sum;
+		if ( curGame.status == Status.PAYING ){			
+			sumPayment = curGame.betsSumIn * tkn.price / betsAll[idLottery][curGame.winCombination].sum;
+			address teamOwner = itemToken.ownerOf(teamID);
+				if(teamOwner!=0x0){					
+					teamOwner.transfer(sumPayment.div(100));
+					sumPayment = sumPayment.mul(99).div(100);
+				}
+		}
 
 		payout = true;
 		packed += uint128(payout?1:0) << 96;
@@ -755,7 +793,7 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 		LogEvent( "ResolveLotteryByOraclize", curGame.nameLottery, delaySec );
 		
 		string memory tmpQuery;
-		tmpQuery = strConcat( "json(https://totalgame.io/api/v2/game/", uint2str(idLottery), "/result).result" );
+		tmpQuery = strConcat( "json(https://totalgame.io/api/v2/game/", uint2str(idLottery), "/result.json).result" );
 	
 		uint32 delay;
 		if ( timenow() < curGame.dateStopBuy ) delay = curGame.dateStopBuy - timenow() + delaySec; //TODO:need to convert to safe math
@@ -773,7 +811,7 @@ contract TTGOracle is ERC721, usingOraclize, Functional, Owned
 		require( combination <= curGame.countCombinations );
 		require( combination != 0 );
 
-		require( timenow() > curGame.dateStopBuy + 2*60*60 );
+		//require( timenow() > curGame.dateStopBuy + 2*60*60 ); //TODO: remove comment
 
 		curGame.winCombination = combination;
 		

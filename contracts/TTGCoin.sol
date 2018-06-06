@@ -153,7 +153,7 @@ contract StandardToken is ERC20, SafeMath {
    * http://vessenes.com/the-erc20-short-address-attack-explained/
    */
   modifier onlyPayloadSize(uint size) {
-     require(msg.data.length < size + 4);
+     //require(msg.data.length < size + 4);
      _;
   }
 
@@ -402,7 +402,7 @@ contract DistributeToken is StandardToken, Ownable{
     require(msg.sender != address(0));
     require(!isContract(msg.sender));
     require(msg.value != 0);
-    require(totalCrowdCoin < havedCrowdCoin);
+    require(totalCrowdCoin > havedCrowdCoin);
     require(finishCrowdCoin == false);
     
     uint actualAmount = calculateCrowdAmount(msg.value);
