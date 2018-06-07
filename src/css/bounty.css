@@ -1,0 +1,39 @@
+.section-title {
+    color: #3d420f;
+    font-size: 36px;
+    font-weight: 800;
+    text-transform: uppercase; }
+
+.captains__subheading {
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin: 20px 0;
+    background: #25343e;
+    border-radius: 15px; }
+  
+  .captains__form {
+    display: flex;
+    padding: 10px 0 20px; }
+    .captains__form .input {
+      margin-bottom: 0;
+      flex-grow: 1;
+      margin-right: 20px; }
+
+.captains_introduce{
+  color: #3d420f;
+  font-size: 20px;
+  padding: 10px 10px;  
+  font-weight: 800;
+  position: relative;  
+  user-select: none;
+}
+
+.captains_steps{
+  color: #3d420f;
+  font-size: 15px;
+  padding: 10px 10px;  
+  font-weight: 800;
+  position: relative;  
+  user-select: none;
+}

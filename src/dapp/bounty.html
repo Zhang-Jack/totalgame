@@ -10,6 +10,8 @@
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/dapp_style.css" rel="stylesheet">
+    <link href="../css/bounty.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -52,87 +54,58 @@
 			  <ul>
     <li>
         <a href="../index.html">Home</a></li>
-    <li class="market-tab active">
+    <li>
         <a href="#">Market</a></li>
     <li>
         <a href="matches.html">Matches</a></li>
     <li>
         <a href="mine.html">Mine</a></li>
-    <li>
-         <a href="bounty.html">Bounty</a></li>        
+    <li class="active">
+          <a href="#">Bounty</a></li>        
 			 </ul>       			        
 		 </div>	
 	<div class="banner-dapp">
 	<div class="container">
 		<div class="banner-dapp-left">
-			<p>Teams Market</p>
+			<p>Bounty Program</p>
 		</div>
 		<div class="clearfix"> </div>
 	</div>
-	</div>
-      <div class="row">
-<li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sort Method
-            <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li>
-                <a href="#" class="PriceAscending" >Price Ascending</a></li>
-            <li>
-                <a href="#" class="PriceDescending">Price Descending</a></li>
-        </ul>
-    </li>        
-        </div>    
+  </div>
 
-      <div class="row">
-      <div class="sec-menu">
-
-        <span class="menu"></span>
-			  <ul>
-         <li class="all-tab active"><a href="javascript:App.showAllTeams();">ALL TEAMS</a></li>
-				 <li class="fifa-tab"><a href="javascript:App.showFIFATeams();">FIFA WORLD CUP</a></li>
-				 <li class="pl-tab"><a href="javascript:App.showPLTeams();">Premier League</a></li>
-				 <li class="ll-tab"><a href="javascript:App.showLLTeams();">La Liga</a></li>
-				 <li class="lsa-tab"><a href="javascript:App.showLSATeams();">Lega Serie A</a></li>
-				 <li class="fb-tab"><a href="javascript:App.showFBTeams();">Fußball-Bundesliga</a></li>
-         <li class="l1-tab"><a href="javascript:App.showL1Teams();">Ligue 1</a></li>
-				 
-			 </ul>
-        </div>        
-        </div>   
-
-        
-      <div id="petsRow" class="row">
-        <!-- PETS LOAD HERE -->
-      </div>
-    </div>
-
-    <div id="petTemplate" style="display: none;">
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="panel panel-default panel-pet" panel-id=0 >
-          <div class="panel-heading">
-            <h3 class="panel-title">Scrappy</h3>
-          </div>
-          <div class="panel-body">
-            <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
-            <br/><br/>
-            <strong>Owner</strong>: <br/>  <span class="owner">null</span><br/>            
-            <strong>Group</strong>: <span class="Group">null</span><br/>
-            <strong>Price</strong>: <span id="pricespan" class="Price">0.005</span><strong> ETH</strong><br/>
-            <br/>
-            <button class="btn btn-default btn-adopt" type="button" data-id="0">Buy</button>
-          </div>
-        </div>
-      </div>
-    </div>
+  
+  <div>
+    <section class="content container captains">
+        <h1 class="section-title">Become a Captain!</h1>
+        <h2 class="captains__subheading">Bring in bets → earn 100x of TTG!</h2>
+        <p class= "captains_introduce">Each time you refer someone that makes a bet, the smart contracts will send you 100x TotalGame Coin of the ETH betting amount.</p>
+        <p class= "captains_introduce">TotalGame has issued a token named TotalGame Coin on the blockchain, which can participate like Lottery to win big amount of digital currencies like ETH, BTC, EOS and so on. More games are under development and coming soon! Refer as many people as you can - there’s no limit to the amount of TTG you can make!</p>
+        <p class= "captains_introduce">Start earning Captain’s rewards in 3 easy steps:</p>
+        <ol>
+          <li class= "captains_steps">Unlock your MetaMask account</li>
+          <li class= "captains_steps">
+            <span>Copy your referral address from here</span>
+            <form class="captains__form" id="captain_link">
+              <input class="input" v-if="!account" type="url" readonly value="https://totalgame.io/dapp/matches.html?captain= &quot;your ETH wallet address&quot;">
+              <input class="input input--small" id="captainsLink" v-if="account" type="url" v-model="message" placeholder="https://totalgame.io/" readonly="readonly">
+              <button type="button" class="button copy-btn" v-if="account" @Click="copyToClipboard()">copy</button>
+              <button type="button" class="button copy-btn" v-if="!account" @click="alertToLogin()">Login MetaMask</button>
+            </form>
+          </li>
+          <li class= "captains_steps">Share with your friends and automatically receive TTG when they make bets. Forever!</li>
+        </ol>
+    </section>
+</div>  
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
     <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
     <script src ="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.3/dist/loadingoverlay.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/web3.min.js"></script>
     <script src="../js/truffle-contract.js"></script>
-    <script src="../js/app.js"></script>
+    <script src="../js/bounty.js"></script>
   </body>
 </html>

@@ -8,6 +8,9 @@ App = {
     estimatedWin: 0,
     betsAllCount: 0,
     redeemTokenID: 0,
+    isFirstLoad: 1,
+    syncSucceed: false,
+    
     
 
 
@@ -20,7 +23,22 @@ App = {
             PAYING: 3,
             CANCELING: 4
         });
-
+        if(App.isFirstLoad){
+            $.LoadingOverlay("show",{
+                background  : "rgba(255, 255, 255, 0.0)",
+                imageColor  : "#EFA330"               
+                     
+            });   
+            setTimeout(function(){
+                $.LoadingOverlay("hide");
+                if(!App.syncSucceed){
+                  alert("Syncing failed, please reload this page later")
+                }
+              }, 30000); 
+            App.isFirstLoad = 0;
+        }
+        App.captainAddress = $.cookie('captain');
+        if(!App.captainAddress) App.captainAddress = 0; 
         $.getJSON('../TTGOracle.json', function(data) {
             // Get the necessary contract artifact file and instantiate it with truffle-contract
             var AdoptionArtifact = data;
@@ -127,9 +145,9 @@ App = {
                              App.vueContainer.isCheckWinner = winner;
                              console.log('App.vueContainer.isCheckWinner',App.vueContainer.isCheckWinner);
                     },
-                    pointsMouseover() {
-                        alert('Every match has an associated point spread. This is a positive or negative number that is added to the ﬁnal score of teamA (the home team) prior to evaluating the outcome of a match. This is done so that even teams with different skill levels can be traded at close to even odds, and also so that ties (“pushes”) cannot occur (because in most sports scores are integers but point spreads have fractional components). TotalGame chooses its point-spreads based of the initially posted vegas or off-shore lines.')
-                     },
+                    //pointsMouseover() {
+                        //alert('Every match has an associated point spread. This is a positive or negative number that is added to the ﬁnal score of teamA (the home team) prior to evaluating the outcome of a match. This is done so that even teams with different skill levels can be traded at close to even odds, and also so that ties (“pushes”) cannot occur (because in most sports scores are integers but point spreads have fractional components). TotalGame chooses its point-spreads based of the initially posted vegas or off-shore lines.')
+                    // },
                      checkETH(eth) {
                          this.isCheckETH = eth;
                          this.ETHNumber = eth * 0.005;
@@ -148,6 +166,15 @@ App = {
                         
                      },
                      ETHNumberHandle() {
+                         console.log('ETHNumberHandle entered');
+                        if(this.ETHNumber < 0.005) {
+                            this.ETHNumber = 0.005;                            
+                        }                        
+                        else if(this.ETHNumber > 100.0) {
+                            this.ETHNumber = 100.0;
+                            alert('The maximum value of a single bet is 100.0 ETH');
+                        }                        
+                        
                          if (this.ETHNumber == 0.005) {
                              this.isCheckETH = 1
                          } else if (this.ETHNumber == 0.01) {
@@ -187,6 +214,21 @@ App = {
                              Group: this.theRequest.Group,
                              eth: this.ETHNumber
                          };
+                         matchIDQuery = this.theRequest.matchID;
+                         let that = this;
+                         $.getJSON('../matches.json', matchIDQuery, function(data) {
+                            $("#matchesDetailContainer").find(".points_spread").text("Points Spread: " + data[matchIDQuery].PointSpread);
+                            //that.queryData.Points_Spread = data[matchIDQuery].PointSpread;
+                         });
+                     
+                         if(this.isCheckWinner == 0){
+                             alert('Please select your favourite team first!');
+                             return App.markAdopted();
+                         }
+                         if(this.ETHNumber == 0){
+                            alert('Please check the betting ETH amount!');
+                            return App.markAdopted();
+                        }                         
 
                          var ethOnBet = web3.toWei(this.queryData.eth, 'ether');
                          var teamIDOnBet = parseInt(this.queryData.TeamAID);
@@ -204,7 +246,12 @@ App = {
                             var account = accounts[0];
                          App.contracts.TTGOracle.deployed().then(function(instance) {
                             ttgInstance = instance;                                                                                                               
-                            return ttgInstance.buyToken(matchIDOnBet, teamIDOnBet, checkWinner, 0, {from: account, gas: 300000, value: ethOnBet});
+                            console.log('App.captainAddress', App.captainAddress);
+                            if(App.captainAddress == App.account){
+                                alert('No same captain address with yourself is allowed');
+                                App.captainAddress = 0;
+                            }
+                            return ttgInstance.buyToken(matchIDOnBet, teamIDOnBet, checkWinner, App.captainAddress, {from: account, gas: 300000, value: ethOnBet});
                             }).then(function(result) {
                                 console.log('buyToken succeed');
                                 alert("Congratulations! You have bought a ticket for your team now!");
@@ -212,6 +259,7 @@ App = {
                             }).catch(function(err) {
                                 alert("Oops, we have an error here", error);
                                 console.log(err.message);
+                                return App.markAdopted(); 
                             });
                             
                         });
@@ -462,6 +510,16 @@ App = {
 
     },
 
+    getMatchResult: function(){
+        url = 'https://totalgame.io/api/v2/game/'+App.vueContainer.gameGroup.matchID+'/result.json';
+        $.getJSON(url, function(data){
+            App.vueContainer.gameGroup.ScoreA = data.ScoreA;
+            App.vueContainer.gameGroup.ScoreB = data.ScoreB;
+            console.log('ScoreA =', App.vueContainer.gameGroup.ScoreA);
+            console.log('ScoreB =', App.vueContainer.gameGroup.ScoreB);
+        });
+    },
+
 
 
     markAdopted: function(adopters, account) {
@@ -508,7 +566,8 @@ App = {
                         //$(".game-block__bottom[game-id=0]").find('.SmartContractValue').text(betsSumIn);
                         
                         App.vueContainer.gameGroup.Game_Status = status;
-                        console.log('App.vueContainer.gameGroup.Game_Status =', App.vueContainer.gameGroup.Game_Status);  
+                        console.log('App.vueContainer.gameGroup.Game_Status =', App.vueContainer.gameGroup.Game_Status); 
+                        if(status == 3) App.getMatchResult();
                         App.vueContainer.gameGroup.Contract_Value = betsSumIn;
                         App.betsAllCount = betsCount;
                         display_contract_value = betsSumIn + ' ETH';
@@ -519,10 +578,12 @@ App = {
                         if(winCombination){
                             App.vueContainer.gameGroup.teamWonID = winCombination == 1? App.vueContainer.gameGroup.TeamAID:App.vueContainer.gameGroup.TeamBID;
                         }                              
-
+                        App.syncSucceed = true;
+                        $.LoadingOverlay("hide"); 
 
                     });
                     console.log('account =', App.account);
+                    if(!App.account) return;
                 ttgInstance.getUserTokensByMatch(App.account, App.vueContainer.queryData.matchID).then(function(result){                    
                     if(result){
                     //console.log(result);
@@ -586,7 +647,8 @@ App = {
                             
                             //App.vueContainer.betDataList.push(info);
                             
-                        })
+                        });
+                        
 
                     })
                 }

@@ -3,6 +3,8 @@ App = {
     contracts: {},
     sortMethod: 0,
     vueContainer: new Vue(),
+    isFirstLoad: 1,
+    syncSucceed: false,
 
 
     init: function() {
@@ -13,6 +15,32 @@ App = {
             PAYING: 3,
             CANCELING: 4
         });
+        if(App.isFirstLoad){
+            $.LoadingOverlay("show",{
+                background  : "rgba(255, 255, 255, 0.0)",
+                imageColor  : "#EFA330"            
+                     
+            });   
+            setTimeout(function(){
+                $.LoadingOverlay("hide");
+                if(!App.syncSucceed){
+                  alert("Syncing failed, please reload this page later")
+                }
+              }, 30000);             
+            App.isFirstLoad = 0;
+        }      
+        var url = location.search;
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("=");
+            console.log('strs[0] = ', strs[0]);
+            if(strs[0]=="captain"){
+                console.log('setting cookie');
+                $.cookie(strs[0], strs[1], {path : '/', secure: false}); 
+            }
+            var captain = $.cookie('captain');
+            console.log('captain = ', captain);
+        }
         // Load matches.        
          $.getJSON('../matches.json', function(data) {
             App.vueContainer = new Vue({
@@ -371,43 +399,43 @@ $.getJSON('../TTGCoin.json', function(data){
             }).then(function(items) {
 
                 gameCount = parseInt(items[0].toString());
-                console.log('gameCount =', gameCount);
+                // console.log('gameCount =', gameCount);
                 playingCount = parseInt(items[1].toString());
-                console.log('playingCount =', playingCount);
+                // console.log('playingCount =', playingCount);
                 processingCount = parseInt(items[2].toString());
-                console.log('processingCount =', processingCount);
+                // console.log('processingCount =', processingCount);
                 playinglist = items[3].toString();
-                console.log('playinglist =', playinglist);
+                // console.log('playinglist =', playinglist);
                 processinglist = parseInt(items[4].toString());
-                console.log('processinglist =', processinglist);
+                // console.log('processinglist =', processinglist);
 
                 for (gameID = 0; gameID < gameCount; gameID++) {
                     ttgInstance.getLotteryByID(gameID).then(function(lottery) {
                         gameIDCallBack = parseInt(lottery[3].toString());
-                        console.log('gameID =', gameIDCallBack);
+                        // console.log('gameID =', gameIDCallBack);
                         gameName = lottery[0].toString();
-                        console.log('gameName =', gameName);
+                        // console.log('gameName =', gameName);
                         gameCountCombinations =   parseInt(lottery[1].toString());
-                        console.log('gameCountCombinations =', gameCountCombinations);
+                        // console.log('gameCountCombinations =', gameCountCombinations);
                         dateStopBuy = new Date(parseInt(lottery[2].toString())*1000).toISOString();
                         dateStopBuyDay = dateStopBuy.substring(0, 10);
                         dateStopBuyTime = dateStopBuy.substring(11, 19);
-                        console.log('dateStopBuy =', dateStopBuy);           
-                        console.log('dateStopBuyDay =', dateStopBuyDay);
-                        console.log('dateStopBuyTime =', dateStopBuyTime);
+                        // console.log('dateStopBuy =', dateStopBuy);           
+                        // console.log('dateStopBuyDay =', dateStopBuyDay);
+                        // console.log('dateStopBuyTime =', dateStopBuyTime);
                         minStake =   parseInt(lottery[6].toString());
-                        console.log('minStake =', minStake);  
+                        // console.log('minStake =', minStake);  
                         winCombination =   parseInt(lottery[7].toString());
-                        console.log('winCombination =', winCombination);                                 
+                        // console.log('winCombination =', winCombination);                                 
                         betsCount =   parseInt(lottery[8].toString());
-                        console.log('betsCount =', betsCount);  
+                        // console.log('betsCount =', betsCount);  
                         betsSumIn =   parseInt(lottery[9].toString());
                         betsSumIn = Math.round(betsSumIn/100000000000000)/10000;             
-                        console.log('betsSumIn =', betsSumIn);  
+                        // console.log('betsSumIn =', betsSumIn);  
                         feeValue =   parseInt(lottery[10].toString());
-                        console.log('feeValue =', feeValue);  
+                        // console.log('feeValue =', feeValue);  
                         status =   lottery[11];
-                        console.log('status =', status);  
+                        // console.log('status =', status);  
                         isFreezing =  lottery[12];
                         console.log('isFreezing =', isFreezing);         
                         //TODO: need to add gameID to blockchain
@@ -424,6 +452,8 @@ $.getJSON('../TTGCoin.json', function(data){
                     })
                     // console.log('gameCount===>',gamesVue)
                 };
+                App.syncSucceed = true;
+                $.LoadingOverlay("hide");
 
 
             });
@@ -488,46 +518,7 @@ $.getJSON('../TTGCoin.json', function(data){
 
     },
 
-    handleBet: function(event) {
-        event.preventDefault();
 
-        var matchID = parseInt($(event.target).data('id'));
-        console.log('$(event.target).data(id) =', matchID);
-
-
-        var itemValueString = $(event.target).parent().find('.Price').text();
-
-        console.log("value selected item string =", itemValueString);
-
-        var itemValue = parseFloat(itemValueString);
-
-        itemValue = web3.toWei(0.2, 'ether');
-
-        console.log("value selected item =", itemValue);
-
-        var TTGOracleInstance;
-
-        web3.eth.getAccounts(function(error, accounts) {
-            if (error) {
-                console.log(error);
-            }
-
-            var account = accounts[0];
-
-            App.contracts.TTGOracle.deployed().then(function(instance) {
-                TTGOracleInstance = instance;
-
-                // Execute adopt as a transaction by sending account
-                return TTGOracleInstance.buyToken(matchID, 1, 0, { from: account, gas: 200000, value: itemValue });
-            }).then(function(result) {
-                alert("Congratulations! You have bought a ticket for your team now!");
-                //return App.markAdopted(); 
-            }).catch(function(err) {
-                alert("Oops, we have an error here", error);
-                console.log(err.message);
-            });
-        });
-    }
 
 };
 

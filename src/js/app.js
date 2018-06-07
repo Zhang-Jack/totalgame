@@ -2,8 +2,23 @@ App = {
   web3Provider: null,
   contracts: {},
   sortMethod: 0,
+  isFirstLoad: 1,
+  syncSucceed: false,
 
   init: function() {
+    if(App.isFirstLoad){
+      $.LoadingOverlay("show",{
+        background  : "rgba(255, 255, 255, 0.0)",
+        imageColor  : "#EFA330"              
+      });
+      setTimeout(function(){
+        $.LoadingOverlay("hide");
+        if(!App.syncSucceed){
+          alert("Syncing failed, please reload this page later")
+        }
+      }, 30000);   
+      App.isFirstLoad = 0;
+  }
     // Load pets.
     $.getJSON('../pets.json', function(data) {
       var petsRow = $('#petsRow');
@@ -333,10 +348,9 @@ App.contracts.ItemToken.deployed().then(function(instance) {
       
       
       });
-      
-     
-
-  }
+    }
+    App.syncSucceed = true;
+    $.LoadingOverlay("hide");
 }).catch(function(err) {
   console.log(err.message);
 });
