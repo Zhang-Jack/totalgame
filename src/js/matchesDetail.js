@@ -32,7 +32,7 @@ App = {
             setTimeout(function(){
                 $.LoadingOverlay("hide");
                 if(!App.syncSucceed){
-                  alert("Syncing failed, please reload this page later")
+                  alert("Syncing failed, please login metamask and reload this page later")
                 }
               }, 30000); 
             App.isFirstLoad = 0;
@@ -63,8 +63,8 @@ App = {
                      totalWon: 0,
                      moreGamesList: [],
                      isCheckWinner: 0,
-                     ETHNumber: 0.005,
-                     preEstimatedWin: 0.005,
+                     ETHNumber: 0.01,
+                     preEstimatedWin: 0.01,
                      isCheckETH: 0,    
                      queryData: {
                          matchID: 0,                         
@@ -150,7 +150,16 @@ App = {
                     // },
                      checkETH(eth) {
                          this.isCheckETH = eth;
-                         this.ETHNumber = eth * 0.005;
+                         if(eth<3){
+                         this.ETHNumber = eth * 0.01;
+                         }else if (eth ==3){
+                            this.ETHNumber = 0.05;
+                         }else if (eth == 4){
+                            this.ETHNumber = 0.1;
+                         }else{
+                            this.ETHNumber = 0.5;
+                         } 
+
                          App.contracts.TTGOracle.deployed().then(function(instance) {
                             ttgInstance = instance; 
                             console.log('App.vueContainer.ischeckWinner', App.vueContainer.isCheckWinner);
@@ -160,6 +169,13 @@ App = {
                                 App.estimatedWin =  (App.vueContainer.gameGroup.Contract_Value+App.vueContainer.ETHNumber*0.95)/((Math.round(parseInt(value[0].toString())/100000000000000)/10000)+App.vueContainer.ETHNumber*0.95);
                                 console.log(App.estimatedWin);
                                 App.vueContainer.preEstimatedWin = (App.estimatedWin*App.vueContainer.ETHNumber*0.95).toFixed(4);
+                                console.log('App.vueContainer.gameGroup.ETHNumber', App.vueContainer.ETHNumber);
+                                console.log('App.vueContainer.preEstimatedWin', App.vueContainer.preEstimatedWin);
+                                if(App.vueContainer.preEstimatedWin < App.vueContainer.ETHNumber){
+                                    console.log('App.vueContainer.gameGroup.ETHNumber', App.vueContainer.ETHNumber);
+                                    App.vueContainer.preEstimatedWin = App.vueContainer.ETHNumber;
+                                    info.pickedFactor = 1.00;
+                                }
                                 }
                             });
                         });
@@ -175,19 +191,38 @@ App = {
                             alert('The maximum value of a single bet is 100.0 ETH');
                         }                        
                         
-                         if (this.ETHNumber == 0.005) {
+                         if (this.ETHNumber == 0.01) {
                              this.isCheckETH = 1
-                         } else if (this.ETHNumber == 0.01) {
-                             this.isCheckETH = 2
-                         } else if (this.ETHNumber == 0.015) {
-                             this.isCheckETH = 3
                          } else if (this.ETHNumber == 0.02) {
+                             this.isCheckETH = 2
+                         } else if (this.ETHNumber == 0.05) {
+                             this.isCheckETH = 3
+                         } else if (this.ETHNumber == 0.1) {
                              this.isCheckETH = 4
-                         } else if (this.ETHNumber == 0.025) {
+                         } else if (this.ETHNumber == 0.5) {
                              this.isCheckETH = 5
                          } else {
                              this.isCheckETH = 0
                          }
+                         App.contracts.TTGOracle.deployed().then(function(instance) {
+                            ttgInstance = instance; 
+                            console.log('App.vueContainer.ischeckWinner', App.vueContainer.isCheckWinner);
+                            ttgInstance['betsAll'](App.vueContainer.gameGroup.matchID, App.vueContainer.isCheckWinner).then(function(value){
+                                //if(err) console.log(err);
+                                if(value){
+                                App.estimatedWin =  (App.vueContainer.gameGroup.Contract_Value+App.vueContainer.ETHNumber*0.95)/((Math.round(parseInt(value[0].toString())/100000000000000)/10000)+App.vueContainer.ETHNumber*0.95);
+                                console.log(App.estimatedWin);
+                                App.vueContainer.preEstimatedWin = (App.estimatedWin*App.vueContainer.ETHNumber*0.95).toFixed(4);
+                                console.log('App.vueContainer.gameGroup.ETHNumber', App.vueContainer.ETHNumber);
+                                console.log('App.vueContainer.preEstimatedWin', App.vueContainer.preEstimatedWin);
+                                if(App.vueContainer.preEstimatedWin < App.vueContainer.ETHNumber){
+                                    console.log('App.vueContainer.gameGroup.ETHNumber', App.vueContainer.ETHNumber);
+                                    App.vueContainer.preEstimatedWin = App.vueContainer.ETHNumber;
+                                    info.pickedFactor = 1.00;
+                                }
+                                }
+                            });
+                        });                         
                      },
                      ETHUp() {
                         this.ETHNumber = (this.ETHNumber * 1000 + 0.005 * 1000) / 1000
@@ -251,7 +286,7 @@ App = {
                                 alert('No same captain address with yourself is allowed');
                                 App.captainAddress = 0;
                             }
-                            return ttgInstance.buyToken(matchIDOnBet, teamIDOnBet, checkWinner, App.captainAddress, {from: account, gas: 300000, value: ethOnBet});
+                            return ttgInstance.buyToken(matchIDOnBet, teamIDOnBet, checkWinner, App.captainAddress, {from: account, gas: 300000, gasPrice:10500000000, value: ethOnBet});
                             }).then(function(result) {
                                 console.log('buyToken succeed');
                                 alert("Congratulations! You have bought a ticket for your team now!");
@@ -618,7 +653,7 @@ App = {
                             }    
                             info.pickedOtherNum = App.betsAllCount > 0? (App.betsAllCount-1):0;
                             sameComboBetsAmount = Math.round(parseInt(data[7].toString())/100000000000000)/10000;
-                            info.pickedFactor = App.vueContainer.gameGroup.Contract_Value/sameComboBetsAmount;
+                            info.pickedFactor = (App.vueContainer.gameGroup.Contract_Value/sameComboBetsAmount).toFixed(3);
                             info.pickedEstimatedWin = (info.pickedBetAmount/sameComboBetsAmount*App.vueContainer.gameGroup.Contract_Value).toFixed(4);
                             info.pickedPayMent = Math.round(parseInt(data[1].toString())/100000000000000)/10000;
                             info.pickedHasPayed = data[6];

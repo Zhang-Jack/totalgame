@@ -224,3 +224,122 @@ p.none-content{
 	margin: 0 auto;
 	color: #112345;
 }
+
+
+/*-- footer --*/
+.footer{
+	background:#676F0A;
+	padding:3em 0;
+	}
+.footer-logo span{
+	background: url(../images/footer-logo.png) no-repeat 38em 0em;
+	display:block;
+	height:69px;
+	}
+.footer-icons{
+	margin:2em 0;
+	text-align: center;
+	}
+.footer-icons ul{
+	padding:0;
+	margin:0;
+	}
+.footer-icons ul li{
+	display:inline-block;
+	margin: 0 10px;
+	}
+.footer-icons ul li a.facebook{
+	background:url(../images/img-sprite.png) no-repeat 0px 0px;
+	display:block;
+	width:50px;
+	height:50px;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	}
+.footer-icons ul li a.facebook:hover{
+	background:url(../images/img-sprite.png) no-repeat -85px 0px;
+	display:block;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	}
+.footer-icons ul li a.twitter{
+	background:url(../images/img-sprite.png) no-repeat 0px -55px;
+	display:block;
+	width:50px;
+	height:50px;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	}
+.footer-icons ul li a.twitter:hover{
+	background:url(../images/img-sprite.png) no-repeat -70px -55px;
+	display:block;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	}
+.footer-icons ul li a.dribble{
+	background:url(../images/img-sprite.png) no-repeat 0px -106px;
+	display:block;
+	width:50px;
+	height:50px;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	}
+.footer-icons ul li a.dribble:hover{
+	background:url(../images/img-sprite.png) no-repeat -68px -106px;
+	display:block;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	}
+.footer-icons ul li a.g-plus{
+	background:url(../images/img-sprite.png) no-repeat 0px -154px;
+	display:block;
+	width:50px;
+	height:50px;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	}
+.footer-icons ul li a.g-plus:hover{
+	background:url(../images/img-sprite.png) no-repeat -70px -154px;
+	display:block;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	}
+.footer p{
+	color:#fff;
+	font-size: 17px;
+	margin: 0;
+	text-align: center;
+	}
+.footer p a{
+	font-size:17px;
+	color:rgba(241, 239, 239, 0.69);
+	}
+.footer p a:hover{
+	color:#fff;
+	text-decoration:none;
+	}
+/*-- //footer --*/

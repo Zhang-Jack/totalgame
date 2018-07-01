@@ -4,21 +4,9 @@ App = {
   sortMethod: 0,
   isFirstLoad: 1,
   syncSucceed: false,
+  account: null,
 
   init: function() {
-    if(App.isFirstLoad){
-      $.LoadingOverlay("show",{
-        background  : "rgba(255, 255, 255, 0.0)",
-        imageColor  : "#EFA330"              
-      });
-      setTimeout(function(){
-        $.LoadingOverlay("hide");
-        if(!App.syncSucceed){
-          alert("Syncing failed, please reload this page later")
-        }
-      }, 30000);   
-      App.isFirstLoad = 0;
-  }
     // Load pets.
     $.getJSON('../pets.json', function(data) {
       var petsRow = $('#petsRow');
@@ -44,21 +32,24 @@ if (typeof web3 !== 'undefined') {
   App.web3Provider = web3.currentProvider;
 } else {
   // If no injected web3 instance is detected, fall back to Ganache
-  App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+  App.web3Provider = new Web3.providers.HttpProvider('https://localhost:7545');
 }
 web3 = new Web3(App.web3Provider);
 var defaultAccount = web3.eth.defaultAccount;
 console.log('defaultAccount =',defaultAccount); 
 var account = $('#account');
+if(!defaultAccount){
+alert("No account detected, please login your MetaMask wallet!");
+var display_owner = "No Account";
+}else{
+App.account = defaultAccount;
 var display_owner = defaultAccount.toString().substring(2,42);
       display_owner = display_owner.toUpperCase(display_owner);
       display_owner = "0x"+display_owner;
+}
 account.append(display_owner);
 var balance = $('#balance');
 var real_balance =0.0;
-if(!defaultAccount || defaultAccount==null){
-  window.location.replace("../dapp/install_tutorial.html");
-}
 if(defaultAccount) real_balance = web3.eth.getBalance(defaultAccount, function(error, result){
     if(!error){
         real_balance = Math.round(result/100000000000000)/10000;
@@ -350,7 +341,7 @@ App.contracts.ItemToken.deployed().then(function(instance) {
       });
     }
     App.syncSucceed = true;
-    $.LoadingOverlay("hide");
+    
 }).catch(function(err) {
   console.log(err.message);
 });
@@ -363,6 +354,11 @@ App.contracts.ItemToken.deployed().then(function(instance) {
     console.log('$(event.target).data(id) =', petId);
     //console.log('$(.panel-pet) =',  $('#petsRow').find('#panel-id'));
     //console.log('$(event.target).parentElement', $(event.target).parent());
+
+if(!App.account){
+alert("No account detected, please login your MetaMask wallet!");
+return;
+}
 
     var ownerString =  $(event.target).parent().find('.owner').text();
     ownerstring_1 = ownerString.substring(0,8);

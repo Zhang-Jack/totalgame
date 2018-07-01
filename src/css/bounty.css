@@ -37,3 +37,32 @@
   position: relative;  
   user-select: none;
 }
+
+.start{
+	text-align:center;
+	}
+.start a{
+	font-size:13px;
+	color:#fff;
+	padding: 20px 50px;
+	border:1px solid #494D1A;
+	font-family: 'Montserrat', sans-serif;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-ms-transition:.5s all;
+	-o-transition:.5s all;
+	background:#47A508;
+	}
+.start a:hover{
+	text-decoration:none;
+	color:#494D1A;
+	border:1px solid #fff;
+  }
+  
+.centerImage{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}  

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Own a team, to earn ETH!	Make a bet, to get TTG!	Join a lottery, to win BTC! Crypto sport teams can earn ETH, a decentralized prediction market is also being built on the ethereum blockchain.">
+		<meta name="google" content="index,follow" />
+		<meta name="googlebot" content="index,follow" />
+		<meta name="verify" content="index,follow" />
+		<meta name="keywords" content="ethereum, decentralized application, ETH, BTC, betting, prediction, sport teams, sport matches, lottery"/>
+		<meta name="apple-mobile-web-app-capable" content="yes" /> 
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> 
+		<meta name="format-detection" content="telephone=no, email=no" /> 
+		<meta name="HandheldFriendly" content="true" /> 
+		<meta name="MobileOptimized" content="320" /> 
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>TotalGame --- Crypto sport teams and prediction games </title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/dapp_style.css" rel="stylesheet">
+    <link href="../css/TTG.css" rel="stylesheet">
+    <link href="../css/flipclock.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+  </head>
+  <body>
+    <div class="user-info">
+    <span class="menu"></span>
+  <table>
+    <tr>                          
+    <td>
+    <div class="text-left" ><strong>User:</strong></div>
+    <div class="text-left" id="account"></div>
+    </td>
+    <td >                              
+    </td> 
+    <td>
+        <div class="text-right user-balance"><strong>ETH Balance:</strong></div>
+        <div class="text-right user-balance" id="balance"></div>
+        </td>
+        <td >                              
+        </td> 
+        <td>                        
+        </td>
+        <td>
+          <div class="text-right user-balance"><strong>TTG Balance:</strong></div>
+          <div class="text-right user-balance" id="TTGbalance"></div>
+    </td>
+  
+    </tr>
+    </table>                  
+</div>                 	                
+		 <div class="top-menu">
+			 <span class="menu"></span>
+			  <ul>
+    <li>
+        <a href="../index.html">Home</a></li>
+    <li >
+        <a href="index.html">Market</a></li>
+    <li >
+        <a href="matches.html">Matches</a></li>
+    <li class="active">
+        <a href="#">TTG</a></li>        
+    <li>
+        <a href="mine.html">Mine</a></li>
+    <li>
+    <a href="bounty.html">Bounty</a></li> 
+			 </ul>       			        
+		 </div>	
+	<div class="banner-dapp">
+	<div class="container">
+		<div class="banner-dapp-left">
+			<p>TotalGame Coin for everything!</p>
+      
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+	</div>
+
+    
+
+    
+    <div class="container">     
+        <a href="javascript:App.transfer();">Transfer</a>
+    </div>
+
+    <!-- <div id="gamesDetailContainer"> -->
+        <div id="gamesDetailContainer">
+            <div class="container matches-box" >
+                <section class="game-heading container">
+                    <div class="row first-row small-up-1 medium-up-2 align-middle">
+                        <div class="column">
+                            <h1 class="section-title">Game</h1>
+                        </div>
+                        <div class="column text-right">
+                            <div class="prize">
+                                <span class="caption">Smart Contract Value</span>
+                                <span class="count_right">
+                                    <span v-text="contractValueResult"></span> ETH
+                                </span>
+                                <a class="question-button question-button--small tooltiped tooltipstered" href="https://etherscan.io/address/0x5dc66C1835fD8d60ef2Ec31901Ee3F33dE9c61a1" target="_blank">?</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="game-billboard" v-bind:style="{ backgroundImage: 'url(' + gameGroup.BackgroundImg + ')' }">
+                    <div class="container animated fadeIn">
+                        <div class="row align-middle" itemscope="" itemtype="http://schema.org/SportsEvent">
+                            <div class="column small-order-2 medium-order-1 small-6 medium-4">
+                                <div class="team-logo">
+                                    <div class="image">
+                                        <img :src="gameGroup.giftPicture">                                        
+                                    </div><span itemprop="homeTeam" v-text="gameGroup.TeamA"></span>
+                                    <div class="countdown__time" v-text="'ETH x '+gameGroup.ethBalance"></div>
+                                </div>
+                            </div>
+                            <div class="column small-order-1 medium-order-2 small-12 medium-4">
+                                <div class="date" itemprop="startDate" v-text="gameGroup.DeadlineTimeStr"></div>
+                                <div class="place" itemprop="location" v-text="gameGroup.City"></div>
+                                <div itemscope="" itemtype="http://schema.org/Thing">
+                                    <div class="round" itemprop="description" v-text="gameGroup.Group"></div>
+                                </div>                                
+                                
+                                <div class="divider"></div>
+                                <div class="countdown">
+                                    <div class="animated fadeIn">
+                                        <div v-if="gameGroup.Game_Status == 1 || gameGroup.Game_Status == 2" class="countdown__caption" v-text="'GAME CLOSES (UTC):'"></div>
+                                        <div v-else-if="gameGroup.Game_Status == 3" class="countdown__caption" v-text="'FINAL SCORE'"></div>
+                                        <div v-else class="countdown__caption" v-text="'CANCELLED'"></div>
+                                        <div v-if="gameGroup.Game_Status == 1 || gameGroup.Game_Status == 2" class="countdown__time" v-text="gameGroup.DeadlineTimeStr"></div>
+                                        <div v-if="gameGroup.Game_Status == 3" class="countdown__caption result_score" v-text="gameGroup.ScoreA + ' : ' + gameGroup.ScoreB"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column small-order-3 medium-order-3 small-6 medium-4">
+                                <div class="team-logo">
+                                    <div class="animated fadeIn">
+                                            <div  class="countdown__caption result_score" v-text="gameGroup.limit + ' TTG for each ticket'"></div>
+                                    </div>
+                                    <span itemprop="awayTeam" v-text="gameGroup.TeamB"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="container"> 
+                    <!-- <section class="buy-ticket-2" v-if="gameGroup.Game_Status == 1"> -->
+                    <section class="buy-ticket-2" >
+                        <div class="row">
+                            <div class="column small-12 medium-2">
+                                <label>Buy tickets:</label>
+                                <div class="score-counter score-counter--right tooltipstered" data-min="0.005">
+                                    <div class="score-counter__buttons">
+                                        <div class="up" @click="TicketsUp"><!--@click="ETHUp"-->
+                                            <svg>
+                                                <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                                            </svg>
+                                        </div>
+                                        <!-- <div class="down" @click="ETHDown"> -->
+                                        <div class="down" @click="TicketsDown">
+                                            <svg>
+                                                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="score-counter__count score-counter__count--small">
+                                        <input type="number" placeholder="5" v-model="ticketsAmountToBuy" @keyup="ETHNumberHandle()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column small-12 medium-6">
+                                <label>Quick Amounts:</label>
+                                <!-- <div class="buy-ticket-button" :class="{ active: isCheckAmount == 1 }" @click="checkETH(1)"> -->
+                                <div class="buy-ticket-button" :class="{ active: isCheckAmount == 1 }" @click="checkAmount(1)">                                    
+                                    1
+                                </div>
+                                <!-- <div class="buy-ticket-button" :class="{ active: isCheckAmount == 2 }" @click="checkETH(2)"> -->
+                                <div class="buy-ticket-button" :class="{ active: isCheckAmount == 2 }" @click="checkAmount(5)"> 
+                                    5
+                                </div>
+                                <!-- <div class="buy-ticket-button" :class="{ active: isCheckAmount == 3 }" @click="checkETH(3)"> -->
+                                <div class="buy-ticket-button" :class="{ active: isCheckAmount == 3 }" @click="checkAmount(10)">
+                                    10
+                                </div>
+                                <!-- <div class="buy-ticket-button" :class="{ active: isCheckAmount == 4 }" @click="checkETH(4)"> -->
+                                <div class="buy-ticket-button" :class="{ active: isCheckAmount == 4 }" @click="checkAmount(50)">                                    
+                                    50
+                                </div>
+                                <!-- <div class="buy-ticket-button" :class="{ active: isCheckAmount == 5 }" @click="checkETH(5)"> -->
+                                <div class="buy-ticket-button" :class="{ active: isCheckAmount == 5 }" @click="checkAmount(100)">
+                                    100
+                                </div>
+                            </div>
+                            <div class="column small-12 medium-4 text-center">
+                                <label class="green upper">Smart Contract Value</label>
+                                <div class="grand-prize">
+                                    <span v-text="contractValueResult"></span> ETH
+                                </div>
+                                <a class="question-button question-button--small tooltiped tooltipstered" href="https://etherscan.io/address/0x5dc66C1835fD8d60ef2Ec31901Ee3F33dE9c61a1" target="_blank">?</a>
+                            </div>
+                        </div>
+                        <div class="row collapse small-up-1 medium-up-3 align-middle text-center">
+                            <div class="column">
+                                <div class="prize">Tickets sold:&nbsp;
+                                    <span v-text="gameGroup.count + ' '"></span>
+                                </div>                            
+                            </div>
+                            <div class="column">
+                                <!-- <button v-if="gameGroup.Game_Status == 1" class="button button--big" v-text="'make a (' + ETHNumber + ' eth) bet'" @click="makeBET"></button> -->
+                                <button v-if="gameGroup.Game_Status == 1" class="button button--big" v-text="'buy ' + ticketsAmountToBuy + ' ticket(s)'" @click="buyTickets"></button>
+                                <button v-if="gameGroup.Game_Status == 2" class="button button--big">Game On Process</button>
+                                <button v-if="gameGroup.Game_Status == 3 && isWinner" class="button button--big" @click="redeemETH">Redeem ETH</button>
+                                <button v-if="gameGroup.Game_Status == 3 && !isWinner" class="button button--big" @click="redeemNoETH">Redeem ETH</button>
+                                <button v-if="gameGroup.Game_Status == 4" class="button button--big" @click="returnBet">Return Bet</button>
+                            </div>
+                            <div class="column">
+                                <label class="upper">All tickets for sale:</label>
+                                <div class="time " v-text="gameGroup.max_cnts"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            </div>
+            <div class="container">
+            <section class="buy-ticket-2" >
+                    <div class="row">
+                        <div id="progressBar"></div>
+                    </div>
+            </section>
+            </div>        
+                    <section class="previous-games container" id="userTickets">
+                        <h2 class="section-title">Your Tickets List</h2>
+                        <div class="table-wrapper">
+                            <div class="table-scroll">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>User</td>
+                                            <td></td>
+                                            <td>Start NO.</td>
+                                            
+                                            <td>End NO.</td>
+                                            <td>Amount</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div> 
+                            <div class="bet-box" v-for="(item,index) in ticketList" :key="index">
+                                <div class="bet-item bet-right">
+                                    <div class="picked-team">
+                                        <span v-text="item.user"></span>
+                                    </div>
+
+                                </div>
+                                <div class="bet-item bet-center">
+                                        <span v-text="item.start"></span>
+                                </div>
+                                <div class="bet-item bet-center">
+                                        <span v-text="item.end"></span>
+                                </div>                                
+                                <div class="bet-item bet-left">
+                                    <span v-text="item.num"></span>
+                                </div>
+                            </div>                           
+                        </div>
+                    </section>
+                </div>            
+            </div>
+        </div>        
+    </div>
+    <div class="container">     
+            <img src="../images/release.png" />				      
+          <div class="clearfix"> </div>
+        </div>
+        
+    
+
+    <div class="container">     
+    <div class="about-grids">
+        <div class="about-grid">
+            <img src="../images/bitcoin.png" alt=" " />				
+        </div>
+        <div class="about-grid">
+            <img src="../images/ethereum.png" alt=" " />
+        </div>
+        <div class="about-grid">
+            <img src="../images/eos.png" alt=" " />				
+        </div>        
+        <div class="about-grid">
+            <img src="../images/gifts.png" alt=" " />
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+        </div>
+    
+<!-- footer -->
+<div class="footer" id="contact">
+	<div class="container">
+		<div class="footer-icons">
+			<ul>
+				<li><a href="https://www.facebook.com/totalgameservice/" class="facebook"> </a></li>
+				<li><a href="https://twitter.com/Totalgame8" class="twitter"> </a></li>
+				<li><a href="https://t.me/joinchat/TTGgame" class="dribble"> </a></li>
+				<li><a href="mailto:totalgamefans@gmail.com" class="g-plus"> </a></li>
+			</ul>
+		</div>
+		<p>Copyright &copy; 2018. TOTALGAME.IO All rights reserved.<a target="_blank" href="http://www.totalgame.io/">Total Game Co, Ltd</a></p>
+	</div>
+	</div>
+<!-- //footer -->
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/web3.min.js"></script>
+    <script src="../js/truffle-contract.js"></script>
+    <script src="../js/TTG.js"></script>
+    <!-- <script src="../js/vue-simple-progress.min.js"></script> -->
+    <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/1.0.0/dist/progressbar.js"></script>
+    <script src="../js/flipclock.min.js"></script>
+    <script src ="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.3/dist/loadingoverlay.min.js"></script>    
+    
+  </body>
+</html>

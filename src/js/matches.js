@@ -24,7 +24,7 @@ App = {
             setTimeout(function(){
                 $.LoadingOverlay("hide");
                 if(!App.syncSucceed){
-                  alert("Syncing failed, please reload this page later")
+                  alert("Syncing failed, please login metamask and reload this page later")
                 }
               }, 30000);             
             App.isFirstLoad = 0;
@@ -36,22 +36,23 @@ App = {
             console.log('strs[0] = ', strs[0]);
             if(strs[0]=="captain"){
                 console.log('setting cookie');
-                $.cookie(strs[0], strs[1], {path : '/', secure: false}); 
+                $.cookie(strs[0], strs[1], {path : '/', secure: true}); 
             }
             var captain = $.cookie('captain');
             console.log('captain = ', captain);
         }
         // Load matches.        
-         $.getJSON('../matches.json', function(data) {
+        var curTimeStamp = Math.floor(Date.now() / 1000);
+        $.getJSON('../matches.json?t='+curTimeStamp, function(data) {
             App.vueContainer = new Vue({
                  el: '#container',
                  data: {
-                     isAllGames: true,
-                     sortType: 2,
+                     isAllGames: false,
+                     sortType: 1,
                      tournamentType: 'all',
                      search: false,
                      isButton: false,
-                     gamesStatus: 0,
+                     gamesStatus: 1,
                      gamesStatusStr: '',
                      searchStr: '',
                      gamesList: [],
@@ -136,15 +137,17 @@ App = {
                              if (this.searchStr) {
                                  if (this.isAllGames) {
                                      if (this.tournamentType == "all") {
+                                         console.log('gamesListHandle === 1');
                                          this.gamesAllList.forEach(item => {
-                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Game_Status == this.gamesStatus)
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Game_Status == this.gamesStatus )
                                              if (flag) {
                                                  this.gamesList.push(item)
                                              }
                                          })
                                      } else {
+                                        console.log('gamesListHandle === 2');
                                          this.gamesAllList.forEach(item => {
-                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType) && (item.Game_Status == this.gamesStatus)
+                                             let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType) && (item.Game_Status == this.gamesStatus && (new Date()< item.DeadlineTime))
                                              if (flag) {
                                                  this.gamesList.push(item)
                                              }
@@ -152,6 +155,7 @@ App = {
                                      }
                                  } else {
                                      if (this.tournamentType == "all") {
+                                        console.log('gamesListHandle === 3');
                                          this.gamesAllList.forEach(item => {
                                              let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
                                              if (flag) {
@@ -159,6 +163,7 @@ App = {
                                              }
                                          })
                                      } else {
+                                        console.log('gamesListHandle === 4');
                                          this.gamesAllList.forEach(item => {
                                              let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType) && (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
                                              if (flag) {
@@ -171,12 +176,14 @@ App = {
                                  if (this.isAllGames) {
                                      this.gamesList = []
                                      if (this.tournamentType == "all") {
+                                        console.log('gamesListHandle === 5');
                                          this.gamesAllList.forEach(item => {
-                                             if (item.Game_Status == this.gamesStatus) {
+                                             //if (item.Game_Status == this.gamesStatus) {
                                                  this.gamesList.push(item)
-                                             }
+                                             //}
                                          })
                                      } else {
+                                        console.log('gamesListHandle === 6');
                                          this.gamesAllList.forEach(item => {
                                              if (item.Group == this.tournamentType && item.Game_Status == this.gamesStatus) {
                                                  this.gamesList.push(item)
@@ -186,13 +193,16 @@ App = {
                                  } else {
                                      this.gamesList = []
                                      if (this.tournamentType == "all") {
+                                        console.log('gamesListHandle === 7');
                                          this.gamesAllList.forEach(item => {
-                                             let flag = (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
+                                            //  let flag = (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
+                                            let flag = (item.Game_Status == this.gamesStatus)
                                              if (flag) {
                                                  this.gamesList.push(item)
                                              }
                                          })
                                      } else {
+                                        console.log('gamesListHandle === 8');
                                          this.gamesAllList.forEach(item => {
                                              let flag = (item.Group == this.tournamentType) && (item.DeadlineTime >= new Date().getTime() / 1000) && (item.Game_Status == this.gamesStatus)
                                              if (flag) {
@@ -206,6 +216,7 @@ App = {
                              if (this.searchStr) {
                                  if (this.isAllGames) {
                                      if (this.tournamentType == "all") {
+                                        console.log('gamesListHandle === 9');
                                          this.gamesAllList.forEach(item => {
                                              let flag = eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)
                                              if (flag) {
@@ -213,6 +224,7 @@ App = {
                                              }
                                          })
                                      } else {
+                                        console.log('gamesListHandle === 10');
                                          this.gamesAllList.forEach(item => {
                                              let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType)
                                              if (flag) {
@@ -222,6 +234,7 @@ App = {
                                      }
                                  } else {
                                      if (this.tournamentType == "all") {
+                                        console.log('gamesListHandle === 11');
                                          this.gamesAllList.forEach(item => {
                                              let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.DeadlineTime >= new Date().getTime() / 1000)
                                              if (flag) {
@@ -229,6 +242,7 @@ App = {
                                              }
                                          })
                                      } else {
+                                        console.log('gamesListHandle === 12');
                                          this.gamesAllList.forEach(item => {
                                              let flag = (eval("/" + this.searchStr + "/ig").test(item.Group) || eval("/" + this.searchStr + "/ig").test(item.TeamA) || eval("/" + this.searchStr + "/ig").test(item.TeamB)) && (item.Group == this.tournamentType) && (item.DeadlineTime >= new Date().getTime() / 1000)
                                              if (flag) {
@@ -241,9 +255,10 @@ App = {
                                  if (this.isAllGames) {
                                      this.gamesList = []
                                      if (this.tournamentType == "all") {
+                                        console.log('gamesListHandle === 13');
                                          this.gamesList = this.gamesAllList
                                      } else {
-
+                                        console.log('gamesListHandle === 14');
                                          this.gamesAllList.forEach(item => {
                                              if (item.Group == this.tournamentType) {
                                                  this.gamesList.push(item)
@@ -253,12 +268,14 @@ App = {
                                  } else {
                                      this.gamesList = []
                                      if (this.tournamentType == "all") {
+                                        console.log('gamesListHandle === 15');
                                          this.gamesAllList.forEach(item => {
                                              if (item.DeadlineTime >= new Date().getTime() / 1000) {
                                                  this.gamesList.push(item)
                                              }
                                          })
                                      } else {
+                                        console.log('gamesListHandle === 16');
                                          this.gamesAllList.forEach(item => {
                                              if (item.Group == this.tournamentType && item.DeadlineTime >= new Date().getTime() / 1000) {
                                                  this.gamesList.push(item)
@@ -271,7 +288,7 @@ App = {
                         this.page = 0
                      },
                      allGames() {
-                         this.isAllGames = !this.isAllGames
+                         this.isAllGames = true;
                          this.gamesListHandle()
                      },
                      pickWinner() {
@@ -286,12 +303,14 @@ App = {
                          }
                      },
                      checkStatus(gamesStatus, status) {
+                        this.isAllGames = false;
                          if (gamesStatus != status) {
                              this.gamesStatus = status
                          } else {
                              this.gamesStatus = 0
                          }
-                         this.gamesListHandle()
+                         this.gamesListHandle();
+                         this.sortVal();
                      },
                      showSearch() {
                          this.search = !this.search
@@ -452,6 +471,8 @@ $.getJSON('../TTGCoin.json', function(data){
                     })
                     // console.log('gameCount===>',gamesVue)
                 };
+                App.vueContainer.gamesListHandle();
+                App.vueContainer.sortVal();
                 App.syncSucceed = true;
                 $.LoadingOverlay("hide");
 

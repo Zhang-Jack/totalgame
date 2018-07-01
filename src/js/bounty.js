@@ -5,6 +5,7 @@ App = {
   isFirstLoad: 1,
   syncSucceed: false,
   vueContainer: null,
+  account:null,
 
   init: function() {
     App.vueContainer = new Vue({
@@ -44,6 +45,7 @@ console.log('defaultAccount =',defaultAccount);
 App.vueContainer.account = defaultAccount;
 App.vueContainer.message ="https://totalgame.io/dapp/matches.html?captain="+defaultAccount;
 var account = $('#account');
+App.account = defaultAccount;
 var display_owner = defaultAccount.toString().substring(2,42);
       display_owner = display_owner.toUpperCase(display_owner);
       display_owner = "0x"+display_owner;
@@ -90,6 +92,30 @@ web3.eth.filter('latest', function(error, result){
 });
 
     return App.initContract();
+  },
+
+  getAirDrop:function(){
+    if(!App.account) {
+      alert('Please install MetaMask and login firstly');
+      return;
+    }
+    $.getJSON('../TTGLottery.json', function(data){
+      var LotteryArtifact = data;
+      App.contracts.TTGLottery = TruffleContract(LotteryArtifact);
+      App.contracts.TTGLottery.setProvider(App.web3Provider);
+      App.contracts.TTGLottery.deployed().then(function(instance){
+        var ttgLotteryInstance = instance;
+        return ttgLotteryInstance.airDrop();
+      }).then(function(result){  
+        console.log('airDrop succeed');
+        alert("Congratulations! 100 TTG has been sent to your wallet!");
+         
+    }).catch(function(err) {
+        alert("Oops, we have an error here");
+        console.log('err',err);
+            
+      });
+    });
   },
 
   initContract: function() {
