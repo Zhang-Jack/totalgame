@@ -19,5 +19,6 @@
     "jquery": "^3.3.1",
     "truffle-hdwallet-provider": "0.0.5"
     "randomatic": ">=3.0.0"
+    "cryptiles": ">=4.1.2"
   }
 }
